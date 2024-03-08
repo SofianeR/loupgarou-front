@@ -1,3 +1,6 @@
+// https://github.com/chifouu65/node-express-mongoose-passport-jwt-rest-api-auth
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

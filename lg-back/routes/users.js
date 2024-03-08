@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const { default: usersController } = require('../controllers/users.controller');
+const UserController = require('../controllers/users.controller');
+
+const controller = new UserController()
 
 /* GET users listing. */
-router.post('/login', usersController.login);
+router.post('/login', controller.login);
 
-router.post('/register', usersController.register)
-
+router.post('/register', controller.register)
 
 module.exports = router;
