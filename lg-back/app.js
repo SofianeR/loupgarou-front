@@ -1,6 +1,5 @@
 // https://github.com/chifouu65/node-express-mongoose-passport-jwt-rest-api-auth
 
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,16 +8,15 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mongoose = require('mongoose')
+var config = require('./config/database');
+var passport = require('passport')
 
 var app = express();
 
-const MONGO_URI = "mongodb+srv://root:root@cluster0.wgudbrp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('success login'))
-    .catch((err) => console.log(err))
-
-require('dotenv').config()
+require('./config/passport')(passport);
+mongoose.connect(config.database)
+  .then(() => console.log('success login'))
+  .catch((err) => console.log(err))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

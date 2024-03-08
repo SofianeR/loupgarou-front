@@ -1,10 +1,8 @@
-var exports = module.exports = {};
-
 let config = require('../config/database'),
     jwt = require('jsonwebtoken');
 
 // Call User model
-let User = require("../models/user");
+let User = require('../models/mongo/player');
 
 exports.signup = function(req, res) {
     if (!req.body.username || !req.body.password) {
