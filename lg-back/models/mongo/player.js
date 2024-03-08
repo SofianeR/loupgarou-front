@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 
-const ProductSchema = new mongoose.Schema({
-    name:String,
-    price: Float,
+const player = new mongoose.Schema({
+    id: Number,
+    name: String,
+    password: String,
+    role: Number,
 })
 
-const Product = mongoose.model('Product', ProductSchema)
+const PlayerModel = mongoose.model('Player', player)
 
-module.exports = Product
+module.exports = PlayerModel
