@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ButtonCreatGame = ({ route, text }) => {
+const ButtonComponent = ({ route, text }) => {
   return (
     <Link to={route}>
       <button>{text}</button>
@@ -9,4 +9,4 @@ const ButtonCreatGame = ({ route, text }) => {
   );
 };
 
-export default ButtonCreatGame;
+export default ButtonComponent;

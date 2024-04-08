@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import ButtonRules from "../components/BtnRules";
+import ButtonComponent from "../components/ButtonComponent";
 import BtnModalCreaAcc from "../components/BtnModalCreaAcc";
 import BtnModalLogin from "../components/BtnModalLogin";
 
-const Home = () => {
+const Home = ({}) => {
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
 
@@ -22,7 +22,7 @@ const Home = () => {
         {modalOpenLogin && <BtnModalLogin setOpenModal={setModalOpenLogin} />}
       </div>
       <div>
-        <ButtonRules />
+        <ButtonComponent route="/Rules" text="Règles" />
       </div>
     </div>
   );
