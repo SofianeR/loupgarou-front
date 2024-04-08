@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-
-// Call User model
 const User = require('../models/mongo/users');
 
-exports.signup = function (req, res) {
+exports.signUp = (req, res) => {
+    console.log('req', req.body)
+
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please pass username and password.'});
     } else {
@@ -21,17 +21,17 @@ exports.signup = function (req, res) {
     }
 };
 
-exports.signin = function (req, res) {
+exports.signIn = (req, res) => {
     User.findOne({
         username: req.body.username
-    }, function (err, user) {
+    }, (err, user) => {
         if (err) throw err;
 
         if (!user) {
             res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
             // check if password matches
-            user.comparePassword(req.body.password, function (err, isMatch) {
+            user.comparePassword(req.body.password,  (err, isMatch) => {
                 if (isMatch && !err) {
                     // if user is found and password is right create a token
                     let token = jwt.sign(user.toJSON(), process.env.SECRET_TOKEN);
