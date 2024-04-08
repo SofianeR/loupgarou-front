@@ -15,6 +15,11 @@ const app = express();
 // parse application/json
 app.use(bodyParser.json());
 
+const corsOptions = {
+  origin: "*",
+};
+app.use(cors(corsOptions));
+
 app.use("/users", usersRoutes);
 app.use("/game", gameRoutes);
 

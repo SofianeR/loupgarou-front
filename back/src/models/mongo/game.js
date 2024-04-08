@@ -10,13 +10,16 @@ const game = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Users",
   },
+
   composition: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Characters",
   },
+
   status: {
     type: Number,
   },
+
   private: {
     type: Boolean,
   },
