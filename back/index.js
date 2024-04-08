@@ -5,15 +5,18 @@ const cors = require("cors");
 
 const usersRoutes = require("./src/routes/users");
 const gameRoutes = require("./src/routes/game");
+var bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URI);
 
 const app = express();
-app.use(cors());
 
-app.use(usersRoutes);
-app.use(gameRoutes);
+// parse application/json
+app.use(bodyParser.json());
+
+app.use("/users", usersRoutes);
+app.use("/game", gameRoutes);
 
 app.get("/", async (req, res) => {
   res.json("Page Introuvable");
