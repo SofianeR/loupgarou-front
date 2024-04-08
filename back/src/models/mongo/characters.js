@@ -1,11 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const characters = new mongoose.Schema({
-    name: String,
-    description: String,
-    list_actions: Array,
-})
+  name: {
+    type: String,
+  },
 
-const CharactersModel = mongoose.model('Characters', characters)
+  description: {
+    type: String,
+  },
 
-module.exports = CharactersModel
+  list_actions: {
+    type: Array,
+  },
+});
+
+const CharactersModel = mongoose.model("Characters", characters);
+
+module.exports = CharactersModel;

@@ -1,14 +1,27 @@
-const mongoose = require('mongoose');
-const characters = require('./characters');
+const mongoose = require("mongoose");
 
 const game = new mongoose.Schema({
-    id_users: Array,
-    status: Number,
-    composition: [{ type: mongoose.Schema.Types.ObjectId, ref: "Characters" }],
-})
+  host: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
 
-const GameModel = mongoose.model('Game', game)
+  id_users: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Users",
+  },
+  composition: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Characters",
+  },
+  status: {
+    type: Number,
+  },
+  private: {
+    type: Boolean,
+  },
+});
 
-module.exports = GameModel
+const GameModel = mongoose.model("Game", game);
 
-
+module.exports = GameModel;

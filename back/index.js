@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+
 const usersRoutes = require("./src/routes/users");
 const gameRoutes = require("./src/routes/game");
 
@@ -15,9 +16,9 @@ app.use(usersRoutes);
 app.use(gameRoutes);
 
 app.get("/", async (req, res) => {
-    res.json("Page Introuvable");
+  res.json("Page Introuvable");
 });
 
 app.listen(process.env.PORT || 4000, () => {
-    console.log(`Server launched on PORT : ${process.env.PORT || 4000}. 🦒`);
+  console.log(`Server launched on PORT : ${process.env.PORT || 4000}. 🦒`);
 });
