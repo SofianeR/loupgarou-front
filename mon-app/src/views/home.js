@@ -1,7 +1,7 @@
 import React from "react";
 import ButtonComponent from "../components/ButtonComponent";
 import FondAccueil from "../assets/FondAccueil.jpg";
-import HeaderHome from "../components/headerHome";
+import HeaderHome from "../components/Header/HeaderHome";
 import Footer from "../components/Footer";
 
 const Home = () => {

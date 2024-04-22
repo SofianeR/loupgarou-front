@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-// import axios from "axios";
-
 function BtnModalCreaAcc({ setOpenModal }) {
   // State pour gérer les valeurs du formulaire
   const [email, setEmail] = useState("");
@@ -13,8 +11,8 @@ function BtnModalCreaAcc({ setOpenModal }) {
     event.preventDefault(); // Empêche le rechargement de la page
     try {
       // Vous pouvez gérer ici la soumission du formulaire, par exemple, envoyer les données au backend
-      console.log("Email:", email);
-      console.log("Password:", password);
+      // console.log("Email:", email);
+      // console.log("Password:", password);
 
       const url_server = "http://localhost:4000/users/signup";
 
@@ -32,23 +30,6 @@ function BtnModalCreaAcc({ setOpenModal }) {
       });
 
       const responseSignup = await fetchSignupResponse.json();
-
-      // const responseSignup = await axios({
-      //   url: url_server,
-      //   method: "POST",
-
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "Access-Control-Allow-Origin": "*",
-      //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      //   },
-
-      //   data: {
-      //     email,
-      //     password,
-      //     username,
-      //   },
-      // });
 
       console.log(responseSignup);
       // Fermer le modal après la soumission du formulaire
