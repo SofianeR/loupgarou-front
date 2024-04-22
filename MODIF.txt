@@ -1,2 +1,0 @@
-J'ai modifier les composant dans HOME pour la connexion et création de compte je l'ai mis dans component header
-Modification possible pour le back

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import BtnModalCreaAcc from "./BtnModalCreaAcc";
-import BtnModalLogin from "./BtnModalLogin";
-import logo from "../assets/logo.png";
+import BtnModalCreaAcc from "../BtnModalCreaAcc";
+import BtnModalLogin from "../BtnModalLogin";
+import logo from "../../assets/logo.png";
 
 const HeaderHome = () => {
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
