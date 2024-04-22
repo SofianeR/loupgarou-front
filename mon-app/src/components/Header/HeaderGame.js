@@ -24,7 +24,6 @@ const HeaderGame = () => {
   }, []);
 
   const handleLogout = () => {
-    // Mettre à jour l'état de disconnect à true
     setDisconnect(false);
   };
 
