@@ -1,14 +1,14 @@
 import React from "react";
 import ButtonComponent from "../components/ButtonComponent";
 import FondAccueil from "../assets/FondAccueil.jpg";
-import Header from "../components/Header";
+import HeaderHome from "../components/headerHome";
 import Footer from "../components/Footer";
 
-const Home = ({ }) => {
+const Home = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderHome />
       <div style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }} className="flex justify-center items-center flex-col">
         <h1 className="text-white text-8xl font-bold mb-8">LOUPS GAROU ONLINE</h1>
         <ButtonComponent route="/Rules" text="Règles" />
