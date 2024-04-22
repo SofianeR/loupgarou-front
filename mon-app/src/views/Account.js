@@ -1,13 +1,13 @@
 import React from "react";
 import ButtonComponent from "../components/ButtonComponent";
-import Header from "../components/headerAccount";
+import HeaderAccount from "../components/Header/HeaderAccount";
 import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg";
 
 const Account = () => {
     return (
         <div>
-            <Header />
+            <HeaderAccount />
             <div
                 style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }}
                 className="flex justify-center items-center flex-col"
