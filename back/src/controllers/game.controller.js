@@ -1,7 +1,7 @@
 const Game = require('../models/mongo/game');
 const mongoose = require('mongoose');
 
-exports.create = function (req, res) {
+exports.create =  (req, res) => {
     const { idUser } = req.params;
     const { private, password } = req.body;
     const isPrivate = private === "true"
@@ -20,6 +20,6 @@ exports.create = function (req, res) {
 };
 
 
-exports.join = function () {
+exports.join = () => {
 
 }

@@ -2,26 +2,27 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/mongo/users");
 
 exports.signUp = async (req, res) => {
-  console.log("JE SUIS UN BODY => ", req.body);
-  if (!req.body.username || !req.body.password || !req.body.email) {
+
+  const { username, password, email } = req.body;
+
+  if (!username || !password || !email) {
     res.json({
-      success: false,
+      isSuccess: false,
       msg: "Merci de renseigner un username, email et mot de passe.",
     });
   } else {
     try {
       let newUser = new User({
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
+        email: email,
+        username: username,
+        password: password,
       });
-      // save the user
+      
       await newUser.save();
 
-      return res.status(200).json({ message: newUser, statut: "OK" });
+      return res.status(200).json({ message: newUser, isSuccess: true });
     } catch (error) {
-      console.log("catch singup => ", error.message);
-      return res.status(500).json({ message: error.message, statut: "NOK" });
+      return res.status(500).json({ message: error.message, isSuccess: false });
     }
   }
 };
