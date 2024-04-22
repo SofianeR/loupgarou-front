@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { requestManager } from "../config/requestFunction";
 
-function BtnModalLogin({ setOpenModal }) {
+function BtnModalLogin({ setOpenModal, setUser }) {
   const navigate = useNavigate();
   // State pour gérer les valeurs du formulaire
   const [username, setUsername] = useState("");
@@ -25,9 +25,14 @@ function BtnModalLogin({ setOpenModal }) {
         password,
       });
 
-      if (signinResponse.ok) {
+      if (signinResponse["isSuccess"]) {
         // Fermer le modal après la soumission du formulaire
-        navigate(`/Account/${signinResponse["_id"]}`);
+        navigate(`/account/${signinResponse["data"]["id"]}`);
+        setUser(
+          signinResponse["data"]["token"],
+          signinResponse["data"]["id"],
+          signinResponse["data"]["username"]
+        );
         setOpenModal(false);
       } else {
         throw new Error(signinResponse.message);
