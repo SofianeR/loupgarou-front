@@ -1,28 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import ButtonComponent from "../components/ButtonComponent";
-import BtnModalCreaAcc from "../components/BtnModalCreaAcc";
-import BtnModalLogin from "../components/BtnModalLogin";
+import FondAccueil from "../assets/FondAccueil.jpg";
+import HeaderHome from "../components/headerHome";
+import Footer from "../components/Footer";
 
-const Home = ({}) => {
-  // State pour gérer l'ouverture et la fermeture du modal de création de compte
-  const [modalOpenAcc, setModalOpenAcc] = useState(false);
-
-  // State pour gérer l'ouverture et la fermeture du modal de connexion
-  const [modalOpenLogin, setModalOpenLogin] = useState(false);
+const Home = () => {
 
   return (
     <div>
-      <h1 className="text-xl">Loups Garou tmtc</h1>
-      <div>
-        <button onClick={() => setModalOpenAcc(true)}>Créer un compte</button>
-        {modalOpenAcc && <BtnModalCreaAcc setOpenModal={setModalOpenAcc} />}
-      </div>
-      <div>
-        <button onClick={() => setModalOpenLogin(true)}>Connexion</button>
-        {modalOpenLogin && <BtnModalLogin setOpenModal={setModalOpenLogin} />}
-      </div>
-      <div>
+      <HeaderHome />
+      <div style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }} className="flex justify-center items-center flex-col">
+        <h1 className="text-white text-8xl font-bold mb-8">LOUPS GAROU ONLINE</h1>
         <ButtonComponent route="/Rules" text="Règles" />
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
