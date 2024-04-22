@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config()
 
 const express = require("express");
 const cors = require("cors");
@@ -8,11 +8,14 @@ const gameRoutes = require("./src/routes/game");
 var bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
-mongoose.connect(process.env.DATABASE_URI);
+mongoose.connect(process.env.DATABASE_URI).then(() => {
+  console.log('success mongo connection')
+}).catch((e) => {
+  console.error('error mongo: ', e)
+})
 
 const app = express();
 
-// parse application/json
 app.use(bodyParser.json());
 
 const corsOptions = {

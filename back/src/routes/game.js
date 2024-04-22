@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/game.controller");
 
-router.post("/game/create", controller.create);
-router.post("/game", controller.create);
+router.post("/:idUser", controller.create);
+router.post("/", (req, res) => {
+    res.status(200).json({
+        test: "1    "
+    })
+});
 
 module.exports = router;
