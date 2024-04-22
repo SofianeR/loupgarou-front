@@ -8,6 +8,7 @@ const gameRoutes = require("./src/routes/game");
 var bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
+
 mongoose.connect(process.env.DATABASE_URI).then(() => {
   console.log('success mongo connection')
 }).catch((e) => {
@@ -24,7 +25,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/users", usersRoutes);
-app.use("/game", gameRoutes);
+app.use("/game/:idUser", gameRoutes);
 
 app.get("/", async (req, res) => {
   res.json("Page Introuvable");
