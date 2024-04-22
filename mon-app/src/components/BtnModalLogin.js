@@ -9,9 +9,11 @@ function BtnModalLogin({ setOpenModal, setUser }) {
   // State pour gérer les valeurs du formulaire
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   // Fonction pour gérer la soumission du formulaire
   const handleSubmit = async (event) => {
+    setAlertMessage("");
     event.preventDefault(); // Empêche le rechargement de la page
 
     // Vous pouvez gérer ici la soumission du formulaire, par exemple, envoyer les données au backend
@@ -40,6 +42,7 @@ function BtnModalLogin({ setOpenModal, setUser }) {
     } catch (error) {
       console.log("dans le catch");
       console.log(error.message);
+      setAlertMessage(error.message);
     }
   };
 
@@ -56,6 +59,11 @@ function BtnModalLogin({ setOpenModal, setUser }) {
         <div className="mt-4">
           <h1 className="text-2xl font-bold">Connexion</h1>
         </div>
+        {alertMessage && (
+          <p className="text-medium text-red-800 font-bold text-center my-3">
+            {alertMessage}
+          </p>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mt-4">
             <label className="block text-gray-700">Username:</label>
