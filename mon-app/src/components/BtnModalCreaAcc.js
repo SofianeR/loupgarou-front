@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-function BtnModalCreaAcc({ setOpenModal }) {
+import { useNavigate } from "react-router-dom";
+
+function BtnModalCreaAcc({ setOpenModal, setUser }) {
+  const navigate = useNavigate();
   // State pour gérer les valeurs du formulaire
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,9 +34,20 @@ function BtnModalCreaAcc({ setOpenModal }) {
 
       const responseSignup = await fetchSignupResponse.json();
 
-      console.log(responseSignup);
+      if (responseSignup["isSuccess"]) {
+        // Fermer le modal après la soumission du formulaire
+        navigate(`/account/${responseSignup["data"]["id"]}`);
+        setUser(
+          responseSignup["data"]["token"],
+          responseSignup["data"]["id"],
+          responseSignup["data"]["username"]
+        );
+        setOpenModal(false);
+      } else {
+        throw new Error(responseSignup.message);
+      }
       // Fermer le modal après la soumission du formulaire
-      setOpenModal(false);
+      // setOpenModal(false);
     } catch (error) {
       console.log(error.message);
     }

@@ -12,26 +12,35 @@ import Create from "./views/Create";
 import Account from "./views/Account";
 import Rules from "./views/Rules";
 
+import HeaderHome from "./components/Header/HeaderHome";
+import Footer from "./components/Footer";
+
 const App = () => {
   const [userSession, setUserSession] = useState(
-    Cookies.get("user_ref_lpMds")
-      ? JSON.parse(Cookies.get("user_ref_lpMds"))
+    localStorage.getItem("user_ref_lpMds")
+      ? JSON.parse(localStorage.getItem("user_ref_lpMds"))
       : null
   );
 
-  const setUser = async (token, userId) => {
+  const setUser = async (token, userId, username) => {
     if (token && userId) {
-      Cookies.set("user_ref_lpMds", JSON.stringify({ token, userId }), {
-        expires: 1,
-      });
-      setUserSession({ token, userId });
+      localStorage.setItem(
+        "user_ref_lpMds",
+        JSON.stringify({ token, userId, username }),
+        {
+          expires: 1,
+        }
+      );
+
+      setUserSession({ token, userId, username });
     } else {
-      Cookies.remove("user_ref_lpMds");
+      localStorage.removeItem("user_ref_lpMds");
       setUserSession(null);
     }
   };
   return (
     <Router>
+      <HeaderHome setUser={setUser} userSession={userSession} />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />
@@ -40,6 +49,7 @@ const App = () => {
         <Route path="/Account/:id" element={<Account />} />
         <Route path="/Rules" element={<Rules />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

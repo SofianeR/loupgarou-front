@@ -5,25 +5,24 @@ import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg";
 
 const Account = () => {
-    return (
-        <div>
-            <HeaderAccount />
-            <div
-                style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }}
-                className="flex justify-center items-center flex-col"
-            >
-                <div className="m-2">
-                    <ButtonComponent route="/Join" text="Rejoindre" />
-                </div>
-                <div>
-                    <ButtonComponent route="/Rules" text="Règles" />
-                </div>
-            </div>
-            <div>
-                <Footer />
-            </div>
+  return (
+    <div>
+      {/* <HeaderAccount /> */}
+      <div
+        style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }}
+        className="flex justify-center items-center flex-col">
+        <div className="m-2">
+          <ButtonComponent route="/Join" text="Rejoindre" />
         </div>
-    );
+        <div>
+          <ButtonComponent route="/Rules" text="Règles" />
+        </div>
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  );
 };
 
 export default Account;
