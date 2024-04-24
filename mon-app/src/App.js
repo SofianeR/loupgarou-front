@@ -5,7 +5,6 @@ import Join from "./views/Join";
 import Game from "./views/Game";
 import Create from "./views/Create";
 import Account from "./views/Account";
-import Rules from "./views/Rules";
 
 import "./App.css";
 
@@ -18,7 +17,6 @@ const App = () => {
         <Route path="/Game/:id" element={<Game />} />
         <Route path="/Create" element={<Create />} />
         <Route path="/Account/:id" element={<Account />} />
-        <Route path="/Rules" element={<Rules />} />
       </Routes>
     </Router>
   );
