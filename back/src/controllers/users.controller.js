@@ -2,21 +2,28 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/mongo/users");
 
 exports.signUp = async (req, res) => {
+
+
   const { username, password, email } = req.body;
+
   if (!username || !password || !email) {
     res.json({
-      message: "Merci de renseigner un username, email et mot de passe.",
       isSuccess: false,
+      msg: "Merci de renseigner un username, email et mot de passe.",
+
     });
   } else {
     try {
       let newUser = new User({
+
         email: email.toLowerCase(),
         username: username.toLowerCase(),
+
         password: password,
       });
-      // save the user
+      
       await newUser.save();
+
 
       const token = jwt.sign(newUser.toJSON(), process.env.SECRET_TOKEN);
 
@@ -25,6 +32,7 @@ exports.signUp = async (req, res) => {
         data: { id: newUser["_id"], token, username: newUser["username"] },
         isSuccess: true,
       });
+
     } catch (error) {
       return res.status(500).json({ message: error.message, isSuccess: false });
     }
