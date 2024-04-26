@@ -8,15 +8,17 @@ import RulesModal from "../components/Rules";
 import { requestManager } from "../config/requestFunction";
 import Modal from "../components/Modal";
 import constant from "../config/constant";
+import {Navigate, useNavigate} from "react-router-dom";
 
 const Account = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [listModal, setListModal] = useState(false);
     const [createModal, setCreateModal] = useState(false);
-
     const [statusCreation, setStatusCreation] = useState(false)
   const [list, setList] = useState([])
-
+    const [password, setPassword] = useState('')
+    const [joinPassword, setJoinPassword] = useState('')
+    const [gameToJoin, setGameJoin] = useState('')
     const fetchGameList = async () => {
         try {
             const idUser = JSON.parse(localStorage.getItem('user_ref_lpMds')).id
@@ -39,7 +41,7 @@ const Account = () => {
   }, []);
 
   const [creationStatus, setCreationStatus] = useState(false)
-
+    const navigate  = useNavigate()
   const GameItem = ({status, id, infoPlayer}) => {
       const [itemModal, setItemModal] = useState(false);
 
@@ -47,6 +49,24 @@ const Account = () => {
         if(status === "privé") {
             setItemModal(true)
         }
+      }
+
+      const handleJoin = async (statusGame, idGame) => {
+          try {
+              const idUser = JSON.parse(localStorage.getItem('user_ref_lpMds')).id
+              const url_server = constant.api.url.concat('/game/').concat(idUser).concat('/join/').concat(idGame)
+              console.log('url handleJoin',url_server)
+              const responseUserData = await requestManager(url_server, "POST", {
+                  private: statusGame,
+                  password: joinPassword
+              });
+              console.log('handleJoin', responseUserData);
+              if(responseUserData.isSuccess) {
+                  navigate(`/game/${responseUserData.response.game_id}`)
+              }
+          } catch (e) {
+              console.log(e.message);
+          }
       }
     return (
         <>
@@ -73,12 +93,38 @@ const Account = () => {
                 title={"Mot de passe"}
                 description={"La partie est privé veuillez renseignez le mot de passe!"}
                 children={
-                    <input type={"password"} className={"bg-gray-200"} placeholder={"mot de passe"}/>
+                    <>
+                        <input onChange={(v) => setJoinPassword(v.target.value)} type={"password"}
+                               className={"bg-gray-200"} placeholder={"mot de passe"}/>
+
+                        <button onClick={() => handleJoin('item.private', 'item._id')}>
+                            submit
+                        </button>
+                    </>
                 }
             />
         </>
     )
   }
+
+
+    const handleCreation = async () => {
+        try {
+            const idUser = JSON.parse(localStorage.getItem('user_ref_lpMds')).id
+            const url_server = constant.api.url.concat('/game/').concat(idUser).concat('/create')
+            console.log('url handleCreation',url_server)
+            const responseUserData = await requestManager(url_server, "POST", {
+                private: statusCreation,
+                password: password
+            });
+            console.log('handleCreation', responseUserData);
+            if(responseUserData.isSuccess) {
+               navigate(`/game/${responseUserData.response.game_id}`)
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
 
     return (
         <div>
@@ -105,7 +151,7 @@ const Account = () => {
                             <div>
                                 <ul className="w-full flex flex-col gap-2">
                                 {list.map((item) => {
-                                return <GameItem
+                                return <GameItem key={item._id}
                                             id={item._id}
                                             status={item.private ? "privé": 'public'}
                                             infoPlayer={item.id_users.length}
@@ -127,13 +173,14 @@ const Account = () => {
                         title="Création d'une partie"
                         description=''
                         children={<>
-                            <form>
+                            <>
                                 {
                                     statusCreation && <div className="mb-6">
                                         <label htmlFor="confirm_password"
                                                className="block mb-2 text-sm font-medium text-gray-900 ">Confirm
                                             password</label>
                                         <input type="password" id="confirm_password"
+                                               onChange={(v) => setPassword(v.target.value)}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                                placeholder="•••••••••" required/>
                                     </div>
@@ -148,15 +195,14 @@ const Account = () => {
                                     <label htmlFor="remember"
                                            className="ms-2 text-sm font-medium">
                                         You want create a private game ?
-
                                     </label>
                                 </div>
-                                <button type="submit"
+                                <button onClick={() =>handleCreation()}
                                         className='inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm'
                                 >
                                     Submit
                                 </button>
-                            </form>
+                            </>
 
                         </>}
                     />

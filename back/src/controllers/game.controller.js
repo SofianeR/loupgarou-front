@@ -23,7 +23,6 @@ exports.create =  (req, res) => {
 exports.join = (req, res) => {
     const { idUser, idGame } = req.params;
     const { private, password } = req.body;
-
     const isPrivate = private === 'true';
 
     try {
@@ -43,7 +42,7 @@ exports.join = (req, res) => {
             if(response === null) {
                 res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: false, response: "Le mot de passe incorrect"});
             } else {
-                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response }});
+                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response._id }});
             }
         }).catch((e) => {
             console.log(e)
