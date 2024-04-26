@@ -15,7 +15,7 @@ const Account = () => {
     try {
       const url_server = "http://localhost:4000/users/fetch/single";
       const responseUserData = await requestManager(url_server, "POST");
-      console.log(responseUserData);
+      // console.log(responseUserData);
     } catch (error) {
       console.log(error.message);
       setAlertMessage(error.message);

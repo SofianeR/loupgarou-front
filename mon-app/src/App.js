@@ -43,7 +43,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />
-        <Route path="/Game/:id" element={<Game />} />
+        <Route path="/Game/:id" element={<Game userSession={userSession} />} />
         <Route path="/Create" element={<Create />} />
         <Route path="/Account/:id" element={<Account />} />
       </Routes>

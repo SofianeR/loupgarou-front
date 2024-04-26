@@ -8,7 +8,6 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 const HeaderHome = ({ userSession, setUser }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log(pathname.includes("Game"));
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
 
