@@ -28,7 +28,7 @@ exports.join = (req, res) => {
 
     try {
 
-        if(isPrivate || !password) {
+        if(isPrivate && !password) {
             return res.status(config.HTTP.RESPONSE.KO.CODE).json({ isSuccess: false, response: 'Aucun password donnée' });
         }
         
@@ -40,7 +40,11 @@ exports.join = (req, res) => {
             { $push: { id_users: new mongoose.Types.ObjectId(idUser) }}, 
             { $addToSet: { id_users: idUser } 
         }).then((response) => {
-            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response }});
+            if(response === null) {
+                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: false, response: "Le mot de passe incorrect"});
+            } else {
+                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response }});
+            }
         }).catch((e) => {
             console.log(e)
             res.status(config.HTTP.RESPONSE.KO.CODE).json({ isSuccess: false, response: e.message });
