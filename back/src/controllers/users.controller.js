@@ -2,59 +2,67 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/mongo/users");
 
 exports.signUp = async (req, res) => {
-  console.log("JE SUIS UN BODY => ", req.body);
-  if (!req.body.username || !req.body.password || !req.body.email) {
+  const { username, password, email } = req.body;
+  if (!username || !password || !email) {
     res.json({
-      success: false,
-      msg: "Merci de renseigner un username, email et mot de passe.",
+      message: "Merci de renseigner un username, email et mot de passe.",
+      isSuccess: false,
     });
   } else {
     try {
       let newUser = new User({
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
+        email: email.toLowerCase(),
+        username: username.toLowerCase(),
+        password: password,
       });
       // save the user
       await newUser.save();
 
-      return res.status(200).json({ message: newUser, statut: "OK" });
+      const token = jwt.sign(newUser.toJSON(), process.env.SECRET_TOKEN);
+
+      return res.status(200).json({
+        message: "Votre compte à bien été crée",
+        data: { id: newUser["_id"], token, username: newUser["username"] },
+        isSuccess: true,
+      });
     } catch (error) {
-      console.log("catch singup => ", error.message);
-      return res.status(500).json({ message: error.message, statut: "NOK" });
+      return res.status(500).json({ message: error.message, isSuccess: false });
     }
   }
 };
 
-exports.signIn = (req, res) => {
-  User.findOne(
-    {
-      username: req.body.username,
-    },
-    (err, user) => {
-      if (err) throw err;
-
-      if (!user) {
-        res.status(401).send({
-          success: false,
-          msg: "Authentication failed. User not found.",
-        });
-      } else {
-        // check if password matches
-        user.comparePassword(req.body.password, (err, isMatch) => {
+exports.signIn = async (req, res) => {
+  try {
+    User.findOne({ username: req.body.username.toLowerCase() }).then((data) => {
+      if (data) {
+        data.comparePassword(req.body.password, (err, isMatch) => {
           if (isMatch && !err) {
             // if user is found and password is right create a token
-            let token = jwt.sign(user.toJSON(), process.env.SECRET_TOKEN);
+            const token = jwt.sign(data.toJSON(), process.env.SECRET_TOKEN);
             // return the information including token as JSON
-            res.json({ success: true, token: "JWT " + token });
+            return res.status(200).json({
+              message: "Authentification réussie",
+              data: {
+                id: data["_id"],
+                token: token,
+                username: data["username"],
+              },
+              isSuccess: true,
+            });
           } else {
-            res.status(401).send({
-              success: false,
-              msg: "Authentication failed. Wrong password.",
+            res.status(500).json({
+              message: "Échec authentification, veuillez réessayer",
+              isSuccess: false,
             });
           }
         });
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Aucun user correspondant", isSuccess: false });
       }
-    }
-  );
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message, isSuccess: false });
+  }
 };

@@ -3,8 +3,10 @@ import BtnModalCreaAcc from "../BtnModalCreaAcc";
 import BtnModalLogin from "../BtnModalLogin";
 import logo from "../../assets/logo.png";
 
+import { useNavigate, Link } from "react-router-dom";
+
 const HeaderHome = ({ userSession, setUser }) => {
-  console.log(userSession);
+  const navigate = useNavigate();
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
 
@@ -24,10 +26,20 @@ const HeaderHome = ({ userSession, setUser }) => {
       {userSession ? (
         <div className="flex items-center">
           {userSession.username && (
-            <div className="mr-4 text-white font-bold bg-clip-border p-2.5 bg-red-600 border-7 rounded-md">
-              {userSession.username}
-            </div>
+            <Link
+              onClick={() => navigate(`/Account/${userSession.id}`)}
+              className="mr-4 text-white font-bold bg-clip-border p-2.5 bg-red-600 border-7 rounded-md">
+              <div>{userSession.username}</div>
+            </Link>
           )}
+          <div>
+            {modalOpenLogin && (
+              <BtnModalLogin
+                setUser={setUser}
+                setOpenModal={setModalOpenLogin}
+              />
+            )}
+          </div>
           <div>
             <button
               onClick={handleLogout}
