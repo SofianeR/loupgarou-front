@@ -39,15 +39,15 @@ const App = () => {
   };
   return (
     <Router>
-      <HeaderHome setUser={setUser} userSession={userSession} />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/Join" element={<Join />} />
-        <Route path="/Game/:id" element={<Game />} />
-        <Route path="/Create" element={<Create />} />
-        <Route path="/Account/:id" element={<Account />} />
-      </Routes>
-      <Footer />
+        <HeaderHome setUser={setUser} userSession={userSession} />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/Join" element={<Join />} />
+            <Route path="/Game/:id" element={<Game />} />
+            <Route path="/Create" element={<Create />} />
+            <Route path="/Account/:id" element={<Account />} />
+          </Routes>
+          <Footer />
     </Router>
   );
 };

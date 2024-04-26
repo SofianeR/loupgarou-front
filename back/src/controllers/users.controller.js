@@ -12,13 +12,16 @@ exports.signUp = async (req, res) => {
       msg: "Merci de renseigner un username, email et mot de passe.",
 
     });
+  } else if(password.length < 5) {
+    return res.status(500).json({ message: 'Le mot de passe doit contenir au moins 4 caractères', isSuccess: false });
+
+
   } else {
     try {
       let newUser = new User({
 
         email: email.toLowerCase(),
         username: username.toLowerCase(),
-
         password: password,
       });
       

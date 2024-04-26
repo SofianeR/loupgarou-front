@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from "./Modal";
 
 const RulesModal = () => {
   const [showModal, setShowModal] = useState(false);
@@ -55,38 +56,41 @@ const RulesModal = () => {
             </div>
 
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            
-            <div className="inline-block align-bottom bg-neutral-200 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-neutral-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                {renderPageContent(currentPage)}
-              </div>
-              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={handleClose}
-                >
-                  Fermer
-                </button>
-                <button
-                  type="button"
-                  className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ${currentPage === 1 ? 'hidden' : ''}`}
-                  onClick={prevPage}
-                >
-                  Précédent
-                </button>
-                <button
-                  type="button"
-                  className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ${currentPage === maxPages ? 'hidden' : ''}`}
-                  onClick={nextPage}
-                >
-                  Suivant
-                </button>
-              </div>
-            </div>
+
+
           </div>
         </div>
       )}
+
+        <Modal
+            openModal={showModal}
+            setOpenModal={setShowModal}
+            children={
+                <>
+                    <div className="py-3 sm:flex sm:flex-row-reverse">
+                        <button
+                            type="button"
+                            className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ${currentPage === 1 ? 'hidden' : ''}`}
+                            onClick={prevPage}
+                        >
+                            Précédent
+                        </button>
+                        <button
+                            type="button"
+                            className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm ${currentPage === maxPages ? 'hidden' : ''}`}
+                            onClick={nextPage}
+                        >
+                            Suivant
+                        </button>
+                    </div>
+                </>
+            }
+            title={"Règles du lou garou"}
+            description={<div className="pt-4">
+                {renderPageContent(currentPage)}
+            </div>}
+
+        />
     </>
   );
 };

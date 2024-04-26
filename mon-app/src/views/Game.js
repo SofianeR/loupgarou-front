@@ -8,10 +8,8 @@ import Action from "../components/Game/Actions";
 
 const Game = () => {
   return (
-    <div>
-      {/* <HeaderGame /> */}
       <div
-        style={{ backgroundImage: `url(${FondAccueil})`, height: "auto" }}
+        style={{ backgroundImage: `url(${FondAccueil})`,  height: "100vh" }}
         className="flex justify-center items-center flex-col p-8">
         <div className="w-10/12 pt-20">
           <Timer />
@@ -28,8 +26,6 @@ const Game = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
   );
 };
 

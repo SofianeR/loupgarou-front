@@ -59,10 +59,16 @@ exports.get = (req, res) => {
     const { idGame } = req.body;
 
     if(idGame) {
-        Game.find({
+        Game.findOne({
             _id: idGame
+        }).then((response) => {
+            console.log("find one", res)
+            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: response });
         })
     } else {
-
+        Game.find().then((response) => {
+            console.log("find all", res)
+            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: response });
+        })
     }
 }
