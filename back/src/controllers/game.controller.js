@@ -31,8 +31,6 @@ exports.join = (req, res) => {
         if(isPrivate || !password) {
             return res.status(config.HTTP.RESPONSE.KO.CODE).json({ isSuccess: false, response: 'Aucun password donnée' });
         }
-
-
         
         // TODO: passer ça en find et check chaque options
         Game.findOneAndUpdate({
@@ -60,5 +58,7 @@ exports.get = (req, res) => {
         Game.find({
             _id: idGame
         })
+    } else {
+
     }
 }
