@@ -42,13 +42,23 @@ UserSchema.pre("save", function (next) {
   }
 });
 
-UserSchema.methods.comparePassword = (passw, cb) => {
-  bcrypt.compare(passw, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
     cb(null, isMatch);
   });
 };
+// UserSchema.methods.comparePassword = (passw, cb) => {
+//   return new Promise((resolve, reject) => {
+//     bcrypt.compare(passw, this.password, (err, isMatch) => {
+//       if (err) {
+//         // console.log("dans model user err => ", err);
+//         reject(cb(err));
+//       }
+//       resolve(cb(null, isMatch));
+//       // console.log("dans model user isMatch => ", isMatch);
+//     });
+//   });
+// };
 
 module.exports = mongoose.model("User", UserSchema);

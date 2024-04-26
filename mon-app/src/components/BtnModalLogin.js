@@ -1,20 +1,49 @@
 import React, { useState } from "react";
 
-function BtnModalLogin({ setOpenModal }) {
+import { useNavigate } from "react-router-dom";
+
+import { requestManager } from "../config/requestFunction";
+
+function BtnModalLogin({ setOpenModal, setUser }) {
+  const navigate = useNavigate();
   // State pour gérer les valeurs du formulaire
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   // Fonction pour gérer la soumission du formulaire
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    setAlertMessage("");
     event.preventDefault(); // Empêche le rechargement de la page
 
     // Vous pouvez gérer ici la soumission du formulaire, par exemple, envoyer les données au backend
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log("username:", username);
+    // console.log("Password:", password);
 
-    // Fermer le modal après la soumission du formulaire
-    setOpenModal(false);
+    try {
+      const url_server = "http://localhost:4000/users/signin";
+      const signinResponse = await requestManager(url_server, "POST", {
+        username,
+        password,
+      });
+
+      if (signinResponse["isSuccess"]) {
+        // Fermer le modal après la soumission du formulaire
+        navigate(`/account/${signinResponse["data"]["id"]}`);
+        setUser(
+          signinResponse["data"]["token"],
+          signinResponse["data"]["id"],
+          signinResponse["data"]["username"]
+        );
+        setOpenModal(false);
+      } else {
+        throw new Error(signinResponse.message);
+      }
+    } catch (error) {
+      console.log("dans le catch");
+      console.log(error.message);
+      setAlertMessage(error.message);
+    }
   };
 
   return (
@@ -23,22 +52,26 @@ function BtnModalLogin({ setOpenModal }) {
         <div className="flex justify-end">
           <button
             className="text-gray-700 text-2xl"
-            onClick={() => setOpenModal(false)}
-          >
+            onClick={() => setOpenModal(false)}>
             &times;
           </button>
         </div>
         <div className="mt-4">
           <h1 className="text-2xl font-bold">Connexion</h1>
         </div>
+        {alertMessage && (
+          <p className="text-medium text-red-800 font-bold text-center my-3">
+            {alertMessage}
+          </p>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mt-4">
-            <label className="block text-gray-700">Email:</label>
+            <label className="block text-gray-700">Username:</label>
             <input
-              type="email"
+              type="username"
               className="mt-1 p-2 border rounded-md w-full"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -56,14 +89,12 @@ function BtnModalLogin({ setOpenModal }) {
             <button
               type="button"
               className="px-4 py-2 mr-4 bg-red-600 text-white rounded hover:bg-red-700"
-              onClick={() => setOpenModal(false)}
-            >
+              onClick={() => setOpenModal(false)}>
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
               Connexion
             </button>
           </div>
