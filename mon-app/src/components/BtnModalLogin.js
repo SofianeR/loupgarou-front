@@ -30,6 +30,7 @@ function BtnModalLogin({ setOpenModal, setUser }) {
       if (signinResponse["isSuccess"]) {
         // Fermer le modal après la soumission du formulaire
         navigate(`/account/${signinResponse["data"]["id"]}`);
+        console.log(signinResponse["data"]);
         setUser(
           signinResponse["data"]["token"],
           signinResponse["data"]["id"],

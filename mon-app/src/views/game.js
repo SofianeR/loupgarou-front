@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderGame from "../components/Header/HeaderGame";
 import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le bon chemin d'accès à votre image
 import Timer from "../components/Game/Timer";
@@ -10,23 +9,22 @@ import Action from "../components/Game/Actions";
 const Game = () => {
   return (
     <div>
-      <HeaderGame />
+      {/* <HeaderGame /> */}
       <div
         style={{ backgroundImage: `url(${FondAccueil})`, height: "auto" }}
-        className="flex justify-center items-center flex-col p-8"
-      >
+        className="flex justify-center items-center flex-col p-8">
         <div className="w-10/12 pt-20">
           <Timer />
           <div className="w-full flex ">
             <div className="w-1/2 p-10">
               <BlocPlayers />
-            </div> 
+            </div>
             <div className="w-1/2 p-10">
               <Chat />
             </div>
           </div>
           <div className="w-10/12 place-items-center">
-          <Action />
+            <Action />
           </div>
         </div>
       </div>

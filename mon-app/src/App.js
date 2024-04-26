@@ -11,7 +11,7 @@ import Game from "./views/Game";
 import Create from "./views/Create";
 import Account from "./views/Account";
 
-import HeaderHome from "./components/Header/HeaderHome";
+import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
     if (token && userId) {
       localStorage.setItem(
         "user_ref_lpMds",
-        JSON.stringify({ token, userId, username }),
+        JSON.stringify({ token, id: userId, username }),
         {
           expires: 1,
         }
