@@ -10,7 +10,6 @@ exports.signUp = async (req, res) => {
     res.json({
       isSuccess: false,
       msg: "Merci de renseigner un username, email et mot de passe.",
-
     });
   } else {
     try {
@@ -31,7 +30,7 @@ exports.signUp = async (req, res) => {
         message: "Votre compte à bien été crée",
         data: { id: newUser["_id"], token, username: newUser["username"] },
         isSuccess: true,
-      });
+      })
 
     } catch (error) {
       return res.status(500).json({ message: error.message, isSuccess: false });
@@ -74,3 +73,11 @@ exports.signIn = async (req, res) => {
     return res.status(500).json({ message: error.message, isSuccess: false });
   }
 };
+
+exports.getOne = async (req, res) => {
+  try {
+    User.findById()
+  } catch (error) {
+    
+  }
+}

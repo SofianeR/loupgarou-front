@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URI).then(() => {
   console.log('success mongo connection')
 }).catch((e) => {
-  console.error('error mongo: ', e)
+  console.error('ERROR MONGO: ', e.errorResponse.errmsg)
 })
 
 const app = express();
@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 const corsOptions = {
   origin: "*",
 };
+
 app.use(cors(corsOptions));
 
 app.use("/users", usersRoutes);
