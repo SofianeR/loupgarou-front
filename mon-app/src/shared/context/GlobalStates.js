@@ -1,6 +1,6 @@
 import { useContext, createContext, useState } from "react";
 
-const LoadingErrorContext = createContext();
+const GlobalStatesContext = createContext();
 
 export const GlobalStatesProvider = ({ children }) => {
   const [userSession, setUserSession] = useState(
@@ -19,7 +19,7 @@ export const GlobalStatesProvider = ({ children }) => {
         }
       );
 
-      setUserSession({ token, userId, username });
+      setUserSession({ token, id: userId, username });
     } else {
       localStorage.removeItem("user_ref_lpMds");
       setUserSession(null);
@@ -34,12 +34,12 @@ export const GlobalStatesProvider = ({ children }) => {
   };
 
   return (
-    <LoadingErrorContext.Provider value={GlobalStatesContextValues}>
+    <GlobalStatesContext.Provider value={GlobalStatesContextValues}>
       {children}
-    </LoadingErrorContext.Provider>
+    </GlobalStatesContext.Provider>
   );
 };
 
 export const useGlobalStatesContext = () => {
-  return useContext(LoadingErrorContext);
+  return useContext(GlobalStatesContext);
 };

@@ -5,11 +5,6 @@ exports.signUp = async (req, res) => {
 
   const { username, password, email } = req.body;
 
-
-  // todo: 
-  // mdp body min 4 caractères,
-  // username min 4 carac
-
   if (!username || !password || !email) {
     res.json({
       isSuccess: false,
@@ -18,14 +13,12 @@ exports.signUp = async (req, res) => {
   } else {
     try {
       let newUser = new User({
-
         email: email.toLowerCase(),
         username: username.toLowerCase(),
         password: password,
       });
-      
-      await newUser.save();
 
+      await newUser.save();
 
       const token = jwt.sign(newUser.toJSON(), process.env.SECRET_TOKEN);
 
@@ -35,8 +28,10 @@ exports.signUp = async (req, res) => {
         isSuccess: true,
       });
 
+
     } catch ({errorResponse}) {
     console.log(errorResponse)
+
 
     // 11000 = error email dupliqué
       if(errorResponse?.code === 11000) {
@@ -82,8 +77,9 @@ exports.signIn = async (req, res) => {
   }
   
     })
+
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ message: error.message, isSuccess: false });
   }
 };

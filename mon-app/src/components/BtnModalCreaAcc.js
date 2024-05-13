@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 
-function BtnModalCreaAcc({ setOpenModal,openModal, setUser }) {
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+
+function BtnModalCreaAcc({ setOpenModal, openModal }) {
+  const { setUser } = useGlobalStatesContext();
+  
   const navigate = useNavigate();
   // State pour gérer les valeurs du formulaire
   const [email, setEmail] = useState("");
@@ -55,66 +59,67 @@ function BtnModalCreaAcc({ setOpenModal,openModal, setUser }) {
   };
 
   return (
-      <Modal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          title="Création de compte"
-          description={alertMessage && (
-              <p className="text-medium text-red-800 font-bold text-center my-3">
-                {alertMessage}
-              </p>
-          )}
-        children={
-          <form onSubmit={handleSubmit}>
-            <div className="mt-4">
-              <label className="block text-gray-700">Email:</label>
-              <input
-                  type="email"
-                  className="mt-1 p-2 border rounded-md w-full"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-              />
-            </div>
+    <Modal
+      openModal={openModal}
+      setOpenModal={setOpenModal}
+      title="Création de compte"
+      description={
+        alertMessage && (
+          <p className="text-medium text-red-800 font-bold text-center my-3">
+            {alertMessage}
+          </p>
+        )
+      }
+      children={
+        <form onSubmit={handleSubmit}>
+          <div className="mt-4">
+            <label className="block text-gray-700">Email:</label>
+            <input
+              type="email"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="mt-4">
-              <label className="block text-gray-700">Username:</label>
-              <input
-                  type="username"
-                  className="mt-1 p-2 border rounded-md w-full"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-              />
-            </div>
-            <div className="mt-4">
-              <label className="block text-gray-700">Password:</label>
-              <input
-                  type="password"
-                  className="mt-1 p-2 border rounded-md w-full"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-              />
-            </div>
-            <div className="mt-6 flex justify-center">
-              <button
-                  type="button"
-                  className="px-4 py-2 mr-4 bg-red-600 text-white rounded hover:bg-red-700"
-                  onClick={() => setOpenModal(false)}>
-                Cancel
-              </button>
-              <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Enregistrement
-              </button>
-            </div>
-          </form>
-        }
-      />
-)
-  ;
+          <div className="mt-4">
+            <label className="block text-gray-700">Username:</label>
+            <input
+              type="username"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-gray-700">Password:</label>
+            <input
+              type="password"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              className="px-4 py-2 mr-4 bg-red-600 text-white rounded hover:bg-red-700"
+              onClick={() => setOpenModal(false)}>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Enregistrement
+            </button>
+          </div>
+        </form>
+      }
+    />
+  );
 }
 
 export default BtnModalCreaAcc;
