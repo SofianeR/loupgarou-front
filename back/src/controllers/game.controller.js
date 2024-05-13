@@ -23,16 +23,13 @@ exports.create =  (req, res) => {
 exports.join = (req, res) => {
     const { idUser, idGame } = req.params;
     const { private, password } = req.body;
-
     const isPrivate = private === 'true';
 
     try {
 
-        if(isPrivate || !password) {
+        if(isPrivate && !password) {
             return res.status(config.HTTP.RESPONSE.KO.CODE).json({ isSuccess: false, response: 'Aucun password donnée' });
         }
-
-
         
         // TODO: passer ça en find et check chaque options
         Game.findOneAndUpdate({
@@ -42,7 +39,11 @@ exports.join = (req, res) => {
             { $push: { id_users: new mongoose.Types.ObjectId(idUser) }}, 
             { $addToSet: { id_users: idUser } 
         }).then((response) => {
-            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response }});
+            if(response === null) {
+                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: false, response: "Le mot de passe incorrect"});
+            } else {
+                res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: { game_id: response._id }});
+            }
         }).catch((e) => {
             console.log(e)
             res.status(config.HTTP.RESPONSE.KO.CODE).json({ isSuccess: false, response: e.message });
@@ -57,8 +58,16 @@ exports.get = (req, res) => {
     const { idGame } = req.body;
 
     if(idGame) {
-        Game.find({
+        Game.findOne({
             _id: idGame
+        }).then((response) => {
+            console.log("find one", res)
+            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: response });
+        })
+    } else {
+        Game.find().then((response) => {
+            console.log("find all", res)
+            res.status(config.HTTP.RESPONSE.OK.CODE).json({ isSuccess: true, response: response });
         })
     }
 }

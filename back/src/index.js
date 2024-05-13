@@ -3,8 +3,8 @@ require("dotenv").config()
 const express = require("express");
 const cors = require("cors");
 
-const usersRoutes = require("./src/routes/users");
-const gameRoutes = require("./src/routes/game");
+const usersRoutes = require("./routes/users");
+const gameRoutes = require("./routes/game");
 var bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 const corsOptions = {
   origin: "*",
 };
+
 app.use(cors(corsOptions));
 
 app.use("/users", usersRoutes);

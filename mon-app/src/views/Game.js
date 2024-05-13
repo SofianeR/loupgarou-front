@@ -41,40 +41,38 @@ const Game = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        style={{ backgroundImage: `url(${FondAccueil})`, height: "auto" }}
-        className="flex justify-center items-center flex-col p-8">
-        <div className="w-10/12 pt-20">
-          <button onClick={() => console.log(players)}>conosole</button>
+    <div
+      style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
+      className="flex justify-center items-center flex-col p-8">
+      <div className="w-10/12 pt-20">
+        <button onClick={() => console.log(players)}>conosole</button>
 
-          <Timer
-            players={players}
-            setPlayers={setPlayers}
-            userSession={userSession}
-            waitingModal={waitingModal}
-            phase={phase}
-            setPhase={setPhase}
-            setSelectedPlayer={setSelectedPlayer}
-            selectedPlayer={selectedPlayer}
-          />
-          <div className="w-full flex ">
-            <div className="w-1/2 p-10">
-              <BlocPlayers
-                userSession={userSession}
-                players={players}
-                selectedPlayer={selectedPlayer}
-                setSelectedPlayer={setSelectedPlayer}
-              />
-            </div>
-            <div className="w-1/2 p-10">
-              <Chat />
-            </div>
+        <Timer
+          players={players}
+          setPlayers={setPlayers}
+          userSession={userSession}
+          waitingModal={waitingModal}
+          phase={phase}
+          setPhase={setPhase}
+          setSelectedPlayer={setSelectedPlayer}
+          selectedPlayer={selectedPlayer}
+        />
+        <div className="w-full flex ">
+          <div className="w-1/2 p-10">
+            <BlocPlayers
+              userSession={userSession}
+              players={players}
+              selectedPlayer={selectedPlayer}
+              setSelectedPlayer={setSelectedPlayer}
+            />
           </div>
-          {/* <div className="w-10/12 place-items-center">
+          <div className="w-1/2 p-10">
+            <Chat />
+          </div>
+        </div>
+        {/* <div className="w-10/12 place-items-center">
             <Action phase={phase} selectedPlayer={selectedPlayer} />
           </div> */}
-        </div>
       </div>
     </div>
   );

@@ -7,16 +7,14 @@ import RulesModal from "../components/Rules";
 
 const Home = () => {
   return (
-    <div>
       <div
-        style={{ backgroundImage: `url(${FondAccueil})`, height: "900px" }}
+        style={{ backgroundImage: `url(${FondAccueil})`,  height: "100vh"  }}
         className="flex justify-center items-center flex-col">
         <h1 className="text-white text-8xl font-bold mb-8">
           LOUPS GAROU ONLINE
         </h1>
         <RulesModal />
       </div>
-    </div>
   );
 };
 

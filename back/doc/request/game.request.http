@@ -1,0 +1,57 @@
+### Create private game
+POST http://localhost:4000/game/662b8a1ccce64ad6b719c36d/create
+Content-Type: application/json
+
+{
+  "private": "true",
+  "password": "password"
+}
+
+### Create public game
+POST http://localhost:4000/game/662b8a1ccce64ad6b719c36d/create
+Content-Type: application/json
+
+{
+  "private": "false"
+}
+
+### Create private game
+POST http://localhost:4000/game/662b8a1ccce64ad6b719c36d/create
+Content-Type: application/json
+
+{
+  "private": "true",
+  "password": "password"
+}
+
+### Join public game
+POST http://localhost:4000/game/66264db4b9e77ad6e02158d7/join/662b8b36cce64ad6b719c376
+Content-Type: application/json
+
+{
+  "private": "false"
+}
+
+
+### Join private game
+POST http://localhost:4000/game/662b8b1ecce64ad6b719c370/join/662b8b1ecce64ad6b719c372
+Content-Type: application/json
+
+{
+  "private": "true",
+  "password": "password"
+}
+
+
+### Get list of game
+POST http://localhost:4000/game/662b8b1ecce64ad6b719c370
+Content-Type: application/json
+
+
+### Get one game
+POST http://localhost:4000/game/662b8b1ecce64ad6b719c370
+Content-Type: application/json
+
+{
+  "idGame": "662b8b1ecce64ad6b719c372"
+}
