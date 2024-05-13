@@ -31,7 +31,6 @@ function BtnModalLogin({ setOpenModal, openModal, setUser }) {
       if (signinResponse["isSuccess"]) {
         // Fermer le modal après la soumission du formulaire
         navigate(`/account/${signinResponse["data"]["id"]}`);
-        console.log(signinResponse["data"]);
         setUser(
           signinResponse["data"]["token"],
           signinResponse["data"]["id"],
@@ -42,7 +41,6 @@ function BtnModalLogin({ setOpenModal, openModal, setUser }) {
         throw new Error(signinResponse.message);
       }
     } catch (error) {
-      console.log("dans le catch");
       console.log(error.message);
       setAlertMessage(error.message);
     }

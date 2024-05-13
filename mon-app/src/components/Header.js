@@ -6,10 +6,14 @@ import logo from "../assets/logo.png";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import Modal from "./Modal";
 
-const HeaderHome = ({ userSession, setUser }) => {
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+
+const HeaderHome = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log(pathname.includes("Game"));
+
+  const { userSession, setUser } = useGlobalStatesContext();
+
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
   const [modalTest, setModalTest] = useState(false);
