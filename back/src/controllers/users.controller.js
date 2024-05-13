@@ -3,19 +3,18 @@ const User = require("../models/mongo/users");
 
 exports.signUp = async (req, res) => {
 
-
   const { username, password, email } = req.body;
+
+
+  // todo: 
+  // mdp body min 4 caractères,
+  // username min 4 carac
 
   if (!username || !password || !email) {
     res.json({
       isSuccess: false,
       msg: "Merci de renseigner un username, email et mot de passe.",
-
     });
-  } else if(password.length < 5) {
-    return res.status(500).json({ message: 'Le mot de passe doit contenir au moins 4 caractères', isSuccess: false });
-
-
   } else {
     try {
       let newUser = new User({
@@ -36,10 +35,16 @@ exports.signUp = async (req, res) => {
         isSuccess: true,
       });
 
-    } catch (error) {
-    console.log(error)
+    } catch ({errorResponse}) {
+    console.log(errorResponse)
 
-      return res.status(500).json({ message: error.message, isSuccess: false });
+    // 11000 = error email dupliqué
+      if(errorResponse?.code === 11000) {
+       let message = `la valeur ${errorResponse.keyValue?.email || errorResponse.keyValue?.username} est dupliqué`
+        return res.status(400).json({ message: message, isSuccess: false });
+      } else {
+        return res.status(500).json({ message: errorResponse.message, isSuccess: false });
+      }
     }
   }
 };
