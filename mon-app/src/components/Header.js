@@ -5,9 +5,14 @@ import logo from "../assets/logo.png";
 
 import { useNavigate, Link, useLocation } from "react-router-dom";
 
-const HeaderHome = ({ userSession, setUser }) => {
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+
+const HeaderHome = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const { userSession, setUser } = useGlobalStatesContext();
+
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
 

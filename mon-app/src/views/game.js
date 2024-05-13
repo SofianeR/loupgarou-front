@@ -8,6 +8,8 @@ import Action from "../components/Game/Actions";
 
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+
 const GameFetch = {
   host: "134134134",
   id_users: [
@@ -26,7 +28,9 @@ const GameFetch = {
   ],
 };
 
-const Game = ({ userSession }) => {
+const Game = () => {
+  const { userSession } = useGlobalStatesContext();
+
   const [players, setPlayers] = useState(GameFetch["id_users"]);
   const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
