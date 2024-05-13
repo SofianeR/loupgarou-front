@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BtnModalCreaAcc from "./BtnModalCreaAcc";
 import BtnModalLogin from "./BtnModalLogin";
 import logo from "../assets/logo.png";
@@ -6,10 +6,14 @@ import logo from "../assets/logo.png";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import Modal from "./Modal";
 
-const HeaderHome = ({ userSession, setUser }) => {
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+
+const HeaderHome = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log(pathname.includes("Game"));
+
+  const { userSession, setUser } = useGlobalStatesContext();
+
   // State pour gérer l'ouverture et la fermeture du modal de création de compte
   const [modalOpenAcc, setModalOpenAcc] = useState(false);
   const [modalTest, setModalTest] = useState(false);
@@ -21,6 +25,8 @@ const HeaderHome = ({ userSession, setUser }) => {
     setUser(null);
     navigate("/");
   };
+
+  useEffect(() => {}, [userSession]);
 
   return (
     <header className="bg-transparent fixed w-full flex justify-between items-center py-4 px-6">
@@ -47,14 +53,6 @@ const HeaderHome = ({ userSession, setUser }) => {
             </Link>
           )}
           <div>
-            {modalOpenLogin && (
-              <BtnModalLogin
-                setUser={setUser}
-                setOpenModal={setModalOpenLogin}
-              />
-            )}
-          </div>
-          <div>
             <button
               onClick={handleLogout}
               className="bg-neutral-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
@@ -63,36 +61,36 @@ const HeaderHome = ({ userSession, setUser }) => {
           </div>
         </div>
       ) : (
-          <div className="flex items-center">
-            <div className="mr-4">
-              <button
-                  onClick={() => setModalOpenAcc(true)}
-                  className="bg-neutral-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                Créer un compte
-              </button>
-              {modalOpenAcc && (
-                  <BtnModalCreaAcc
-                      setUser={setUser}
-                      openModal={modalOpenAcc}
-                      setOpenModal={setModalOpenAcc}
-                  />
-              )}
-            </div>
-            <div>
-              <button
-                  onClick={() => setModalOpenLogin(true)}
-                  className="bg-neutral-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                Connexion
-              </button>
-              {modalOpenLogin && (
-                  <BtnModalLogin
-                      setUser={setUser}
-                      openModal={modalOpenLogin}
-                      setOpenModal={setModalOpenLogin}
-                  />
-              )}
-            </div>
+        <div className="flex items-center">
+          <div className="mr-4">
+            <button
+              onClick={() => setModalOpenAcc(true)}
+              className="bg-neutral-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              Créer un compte
+            </button>
+            {modalOpenAcc && (
+              <BtnModalCreaAcc
+                setUser={setUser}
+                openModal={modalOpenAcc}
+                setOpenModal={setModalOpenAcc}
+              />
+            )}
           </div>
+          <div>
+            <button
+              onClick={() => setModalOpenLogin(true)}
+              className="bg-neutral-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              Connexion
+            </button>
+            {modalOpenLogin && (
+              <BtnModalLogin
+                setUser={setUser}
+                openModal={modalOpenLogin}
+                setOpenModal={setModalOpenLogin}
+              />
+            )}
+          </div>
+        </div>
       )}
     </header>
   );
