@@ -19,17 +19,19 @@ const Account = () => {
   const [password, setPassword] = useState("");
   const [joinPassword, setJoinPassword] = useState("");
   const [gameToJoin, setGameJoin] = useState("");
+
   const fetchGameList = async () => {
     try {
       const idUser = JSON.parse(localStorage.getItem("user_ref_lpMds")).id;
       const url_server = constant.api.url.concat("/game/").concat(idUser);
-      console.log(url_server);
-      const responseUserData = await requestManager(url_server, "POST");
-      console.log(responseUserData);
-      if (responseUserData.isSuccess) {
-        setList(responseUserData.response);
+
+    requestManager(url_server, "POST").then((res) => {
+      if (res.isSuccess) {
+        setList(res.response);
         console.log(list);
       }
+    })
+
     } catch (e) {
       console.log(e.message);
       setAlertMessage(e.message);
