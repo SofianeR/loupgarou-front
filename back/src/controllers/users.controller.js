@@ -76,12 +76,6 @@ exports.signIn = async (req, res) => {
           .json({ message: "Aucun user correspondant", isSuccess: false });
       }
     });
-      } else {
-        return res
-          .status(401)
-          .json({ message: "Aucun user correspondant", isSuccess: false });
-      }
-    });
   } catch (error) {
     return res.status(500).json({ message: error.message, isSuccess: false });
   }
