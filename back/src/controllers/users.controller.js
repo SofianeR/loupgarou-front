@@ -27,8 +27,20 @@ exports.signUp = async (req, res) => {
         data: { id: newUser["_id"], token, username: newUser["username"] },
         isSuccess: true,
       });
-    } catch (error) {
-      return res.status(500).json({ message: error.message, isSuccess: false });
+    } catch ({ errorResponse }) {
+      console.log(errorResponse);
+
+      // 11000 = error email dupliqué
+      if (errorResponse?.code === 11000) {
+        let message = `la valeur ${
+          errorResponse.keyValue?.email || errorResponse.keyValue?.username
+        } est dupliqué`;
+        return res.status(400).json({ message: message, isSuccess: false });
+      } else {
+        return res
+          .status(500)
+          .json({ message: errorResponse.message, isSuccess: false });
+      }
     }
   }
 };

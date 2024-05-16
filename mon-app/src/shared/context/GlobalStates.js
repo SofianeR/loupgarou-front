@@ -9,6 +9,11 @@ export const GlobalStatesProvider = ({ children }) => {
       : null
   );
 
+  const [informationMessage, setInformationMessage] = useState({
+    title: "",
+    content: "",
+  });
+
   const setUser = async (token, userId, username) => {
     if (token && userId) {
       localStorage.setItem(
@@ -31,6 +36,9 @@ export const GlobalStatesProvider = ({ children }) => {
     setUserSession,
 
     setUser,
+
+    informationMessage,
+    setInformationMessage,
   };
 
   return (
