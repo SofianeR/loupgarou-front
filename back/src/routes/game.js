@@ -1,9 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/game.controller");
+const router = require("express").Router();
+const {create, join, get} = require("../controllers/game.controller");
 
-router.post("/create", controller.create);
-router.post("/join/:idGame", controller.join);
-router.post("/", controller.get)
+router.post("/create", create);
+router.post("/join/:idGame", join);
+router.post("/", get)
 
 module.exports = router;

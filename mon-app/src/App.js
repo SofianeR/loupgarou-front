@@ -19,7 +19,7 @@ const App = () => {
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/Join" element={<Account />} />
+        <Route path="/Join" element={<Join/>} />
         <Route path="/Game/:id" element={<Game />} />
         <Route path="/Create" element={<Create />} />
         <Route path="/Account/:id" element={<AccountFake />} />
