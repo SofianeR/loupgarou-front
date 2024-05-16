@@ -13,17 +13,18 @@ const socketIoInit = require("./config/socketIoConnection");
 const app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST']
 };
 
 // init de la base de donnée
 connection();
 // init du server socket.io
-socketIoInit(app)
+socketIoInit(app, corsOptions);
 
 // options de configuration
 app.use(
-    cors(corsOptions),
+    cors(),
     bodyParser.json(),
     express.static("public")
 );

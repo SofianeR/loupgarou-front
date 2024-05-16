@@ -1,20 +1,36 @@
 const http = require("http");
-const socketIo = require("socket.io");
+const {Server} = require("socket.io");
 
-module.exports = function socketIoInit(app) {
+module.exports = function socketIoInit(app, cors) {
+    console.log('socketIoInit')
     const server = http.createServer(app);
     // création du server socket.io
-    const io = socketIo(server);
+    const io = new Server(server, {
+        cors: cors,
+        connectionStateRecovery: {}
+    })
 
-    io.on("connection", (socket) => {
-        console.log("Nouvel utilisateur connecté");
+    io.on("connection", async (socket) => {
+        console.log("un utilisateur s'est connecté");
 
-        socket.on("sendMessage", (message) => {
-            io.emit("receiveMessage", message);
+        // socket.on("deconnexion", () => {
+        //   console.log("deconnexion");
+        //   socket.disconnect();
+        // });
+
+        socket.on("chat message", async (message, clientOffset, callback) => {
+            let result;
+
+
+            //   console.log("message envoyé depuis client => ", message);
+            io.emit("message sent from server", message, result.lastID);
+            callback();
         });
 
-        socket.on("disconnect", () => {
-            console.log("Utilisateur déconnecté");
-        });
     });
+
+    server.listen(3001, () => {
+        console.log("SERVER IS RUNNING");
+    });
+
 }
