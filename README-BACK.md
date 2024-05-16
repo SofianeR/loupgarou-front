@@ -15,13 +15,27 @@
     ##Games: 
 
     - /game/:idUser/create
-
-        reponses: 
-
+      
+      body : {
+        private: boolean,
+        password: string || undedfined
+      }
+      
     - /game/:idUser/join/:idGame
-
-        reponses:
-
+      
+      body : {
+        private: boolean,
+        password: string || undedfined
+      }
+      
+    - /game/:idUser/
+      
+      body : {
+        idGame: string || undefined
+      }
+      
     ##Users
 
+    - /user/signup
+    - /user/signin
     
