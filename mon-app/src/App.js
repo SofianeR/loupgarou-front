@@ -11,14 +11,20 @@ import Account from "./views/Account";
 
 import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
+
 import { io } from "socket.io-client";
 
 const socket = io.connect("http://localhost:4000");
+
+import Chat from "./components/Chat";
+import { useGlobalStatesContext } from "../src/shared/context/GlobalStates";
+
 
 const App = () => {
   socket.emit();
   //Room State
   const [room, setRoom] = useState("");
+
 
   // Messages States
   const [message, setMessage] = useState("TEST");
@@ -60,13 +66,16 @@ const App = () => {
 
   return (
     <Router>
+
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />
         <Route path="/Game/:id" element={<Game />} />
         <Route path="/Create" element={<Create />} />
+
         <Route path="/Account/:id" element={<Account />} />
+
       </Routes>
       <Footer />
     </Router>

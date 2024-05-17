@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le bon chemin d'accès à votre image
 import Timer from "../components/Game/Timer";
 import BlocPlayers from "../components/Game/BlocPlayers";
-import Chat from "../components/Game/Chat";
 import Action from "../components/Game/Actions";
 import { requestManager } from "../config/requestFunction";
 import { useLocation } from "react-router-dom";
@@ -11,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
 import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+import Chat from "../components/Chat";
 
 const GameFetch = {
   host: "134134134",

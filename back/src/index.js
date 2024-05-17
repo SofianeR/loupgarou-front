@@ -34,6 +34,6 @@ app.use("/users", usersRoutes);
 app.use("/game/:idUser", gameRoutes);
 app.get("*", (req, res) =>  res.json("Page Introuvable"));
 
-app.listen(process.env.PORT || 4000, () => {
-  console.log(`Server launched on PORT : ${process.env.PORT || 4000}. 🦒`);
+app.listen(4000, () => {
+  console.log(`Server launched on PORT : ${4000}. 🦒`);
 });
