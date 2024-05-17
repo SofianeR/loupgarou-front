@@ -14,7 +14,7 @@ import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
 import {io} from "socket.io-client";
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("http://localhost:3001");
 
 const App = () => {
 
@@ -67,6 +67,7 @@ const App = () => {
                 <button>test</button>
 
             </div>
+            <HeaderHome/>
             <Routes>
                 <Route exact path="/" element={<Home/>}/>
                 <Route path="/Join" element={<Join/>}/>

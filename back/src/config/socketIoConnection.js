@@ -4,10 +4,10 @@ const {Server} = require("socket.io");
 module.exports = function socketIoInit(app, cors) {
     console.log('socketIoInit')
     const server = http.createServer(app);
+    
     // création du server socket.io
     const io = new Server(server, {
         cors: cors,
-        connectionStateRecovery: {}
     })
 
     io.on("connection", async (socket) => {
