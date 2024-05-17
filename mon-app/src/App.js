@@ -19,10 +19,7 @@ const App = () => {
   return (
     <Router>
       <HeaderHome />
-      <div className={"px-20"}>
-        <Test />
-        <button>test</button>
-      </div>
+
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />
