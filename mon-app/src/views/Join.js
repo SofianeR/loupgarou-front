@@ -254,7 +254,6 @@ const Join = () => {
               </div>
             }
           />
-          <Chat room={"Générale"} username={userSession?.username} />
 
           <div>
             <RulesModal />

@@ -11,7 +11,6 @@ import Account from "./views/Account";
 
 import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
-import { io } from "socket.io-client";
 
 const App = () => {
   return (
