@@ -47,32 +47,38 @@ const Join = () => {
 
   const [creationStatus, setCreationStatus] = useState(false);
   const navigate = useNavigate();
+
   const GameItem = ({ status, id, infoPlayer }) => {
     const [itemModal, setItemModal] = useState(false);
 
     const handleClick = () => {
       if (status === "privé") {
         setItemModal(true);
+      } else {
+        handleSubmit();
       }
     };
 
-    const handleJoin = async (statusGame, idGame) => {
+    const handleSubmit = async () => {
+      console.log('handlesub')
       try {
         const idUser = JSON.parse(localStorage.getItem("user_ref_lpMds")).id;
+
         const url_server = constant.api.url
           .concat("/game/")
           .concat(idUser)
           .concat("/join/")
-          .concat(idGame);
-        console.log("url handleJoin", url_server);
-        console.log(statusGame, idGame);
+          .concat(id);
+
         const responseUserData = await requestManager(url_server, "POST", {
-          private: statusGame,
+          private: status,
           password: joinPassword,
         });
-        console.log("handleJoin", responseUserData);
+
         if (responseUserData.isSuccess) {
           navigate(`/game/${responseUserData.response.game_id}`);
+        } else {
+          console.log(responseUserData)
         }
       } catch (e) {
         console.log(e.message);
@@ -82,18 +88,19 @@ const Join = () => {
       <>
         <li
           onClick={() => handleClick()}
-          className="bg-gray-200 p-1 px-2 flex justify-between">
-
+          className="bg-gray-200 p-1 px-2 flex justify-between"
+        >
           <p>
             <span className="idgame">
               {id ? "game #".concat(id) : "game #01"}
             </span>
-            <span>/ Status {status ? status : "(privé/public)"}</span>
+            <span> / Status {status ? status : "(privé/public)"}</span>
           </p>
           <span>
             {infoPlayer ? infoPlayer.toString().concat("/12") : "0/12"}
           </span>
         </li>
+        <div>join pass: {joinPassword}</div>
         <Modal
           openModal={itemModal}
           setOpenModal={setItemModal}
@@ -102,18 +109,23 @@ const Join = () => {
             "La partie est privé veuillez renseignez le mot de passe!"
           }
           children={
-            <>
+            <div className="mb-6">
               <input
+                type="password"
+                id="confirm_password"
                 onChange={(v) => setJoinPassword(v.target.value)}
-                type={"password"}
-                className={"bg-gray-200"}
-                placeholder={"mot de passe"}
+                value={joinPassword}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                placeholder="•••••••••"
+                required
               />
-
-              <button onClick={() => handleJoin("item.private", "item._id")}>
-                submit
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-500 text-white px-4 py-2 rounded-r-lg"
+              >
+                Valider
               </button>
-            </>
+            </div>
           }
         />
       </>
@@ -149,11 +161,13 @@ const Join = () => {
       <div>
         <div
           style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
-          className="flex justify-center items-center flex-col">
+          className="flex justify-center items-center flex-col"
+        >
           <div className="m-2">
             <button
               onClick={() => setListModal(true)}
-              className="bg-neutral-700 hover:bg-red-600 text-white text-3xl font-bold py-6 px-8 rounded-xl">
+              className="bg-neutral-700 hover:bg-red-600 text-white text-3xl font-bold py-6 px-8 rounded-xl"
+            >
               Jouer
             </button>
           </div>
@@ -193,7 +207,8 @@ const Join = () => {
                   <button
                     onClick={() => setCreateModal(true)}
                     type={"button"}
-                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm"
+                  >
                     Crée partie
                   </button>
 
@@ -209,7 +224,8 @@ const Join = () => {
                             <div className="mb-6">
                               <label
                                 htmlFor="confirm_password"
-                                className="block mb-2 text-sm font-medium text-gray-900 ">
+                                className="block mb-2 text-sm font-medium text-gray-900 "
+                              >
                                 Confirm password
                               </label>
                               <input
@@ -237,13 +253,15 @@ const Join = () => {
                             </div>
                             <label
                               htmlFor="remember"
-                              className="ms-2 text-sm font-medium">
+                              className="ms-2 text-sm font-medium"
+                            >
                               You want create a private game ?
                             </label>
                           </div>
                           <button
                             onClick={() => handleCreation()}
-                            className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                            className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm"
+                          >
                             Submit
                           </button>
                         </>
