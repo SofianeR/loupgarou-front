@@ -81,9 +81,9 @@ const Join = () => {
     return (
       <>
         <li
-          className="bg-gray-200 p-1 px-2 flex justify-between"
-          onClick={() => handleJoin(status, id)}
-        >
+          onClick={() => handleClick()}
+          className="bg-gray-200 p-1 px-2 flex justify-between">
+
           <p>
             <span className="idgame">
               {id ? "game #".concat(id) : "game #01"}
@@ -149,13 +149,11 @@ const Join = () => {
       <div>
         <div
           style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
-          className="flex justify-center items-center flex-col"
-        >
+          className="flex justify-center items-center flex-col">
           <div className="m-2">
             <button
               onClick={() => setListModal(true)}
-              className="bg-neutral-700 hover:bg-red-600 text-white text-3xl font-bold py-6 px-8 rounded-xl"
-            >
+              className="bg-neutral-700 hover:bg-red-600 text-white text-3xl font-bold py-6 px-8 rounded-xl">
               Jouer
             </button>
           </div>
@@ -195,8 +193,7 @@ const Join = () => {
                   <button
                     onClick={() => setCreateModal(true)}
                     type={"button"}
-                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm"
-                  >
+                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
                     Crée partie
                   </button>
 
@@ -212,8 +209,7 @@ const Join = () => {
                             <div className="mb-6">
                               <label
                                 htmlFor="confirm_password"
-                                className="block mb-2 text-sm font-medium text-gray-900 "
-                              >
+                                className="block mb-2 text-sm font-medium text-gray-900 ">
                                 Confirm password
                               </label>
                               <input
@@ -241,15 +237,13 @@ const Join = () => {
                             </div>
                             <label
                               htmlFor="remember"
-                              className="ms-2 text-sm font-medium"
-                            >
+                              className="ms-2 text-sm font-medium">
                               You want create a private game ?
                             </label>
                           </div>
                           <button
                             onClick={() => handleCreation()}
-                            className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm"
-                          >
+                            className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-700 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
                             Submit
                           </button>
                         </>
@@ -260,6 +254,8 @@ const Join = () => {
               </div>
             }
           />
+          <Chat room={"Générale"} username={userSession?.username} />
+
           <div>
             <RulesModal />
           </div>
