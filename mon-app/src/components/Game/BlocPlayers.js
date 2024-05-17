@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from "react";
+import { useGlobalStatesContext } from "../../shared/context/GlobalStates";
 
-const BlocPlayers = ({
-  players,
-  selectedPlayer,
-  setSelectedPlayer,
-  userSession,
-}) => {
-  //   useEffect(() => {
-  //     const fetchPlayers = async () => {
-  //       try {
-  //         const response = await fetch("http://localhost:4000/users/games");
-  //         if (!response.ok) {
-  //           throw new Error("Failed to fetch Players");
-  //         }
-  //         const data = await response.json();
-  //         // setPlayers(data);
-  //       } catch (error) {
-  //         console.error("Error fetching Players:", error);
-  //       }
-  //     };
-
-  //     fetchPlayers();
-  //   }, []);
-
+const BlocPlayers = ({ players, selectedPlayer, setSelectedPlayer, phase }) => {
+  const { userSession } = useGlobalStatesContext();
+  const userRole = players.find((elmt) => elmt._id === userSession.id)["role"];
   return (
     <>
       <div className="grid grid-cols-4 gap-4 bg-neutral-700 p-8 rounded-lg h-95">
         {players.map((player, index) => (
           <div
             onClick={() => {
-              if (!player["isDisqualified"]) {
-                setSelectedPlayer(player);
+              console.log(phase);
+              switch (phase) {
+                case "Jour":
+                  if (!player["isDisqualified"]) {
+                    setSelectedPlayer(player);
+                  }
+                  break;
+
+                case "Nuit":
+                  if (
+                    !player["isDisqualified"] &&
+                    userRole &&
+                    userRole === "loup"
+                  ) {
+                    setSelectedPlayer(player);
+                  }
+                  break;
+
+                default:
+                  break;
               }
             }}
             key={index}
