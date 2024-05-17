@@ -11,12 +11,18 @@ import Account from "./views/Account";
 
 import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:4000");
 
 const App = () => {
-
   return (
     <Router>
       <HeaderHome />
+      <div className={"px-20"}>
+        <Test />
+        <button>test</button>
+      </div>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />

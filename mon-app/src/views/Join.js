@@ -13,6 +13,7 @@ import { useGlobalStatesContext } from "../shared/context/GlobalStates";
 import Chat from "../components/Chat";
 
 const Join = () => {
+
   const { userSession } = useGlobalStatesContext();
 
   const [alertMessage, setAlertMessage] = useState("");
@@ -65,6 +66,7 @@ const Join = () => {
           .concat("/join/")
           .concat(idGame);
         console.log("url handleJoin", url_server);
+
         const responseUserData = await requestManager(url_server, "POST", {
           private: statusGame,
           password: joinPassword,
@@ -80,8 +82,10 @@ const Join = () => {
     return (
       <>
         <li
+
           onClick={() => handleClick()}
           className="bg-gray-200 p-1 px-2 flex justify-between"
+
         >
           <p>
             <span className="idgame">
@@ -126,10 +130,12 @@ const Join = () => {
         .concat("/game/")
         .concat(idUser)
         .concat("/create");
+
       const responseUserData = await requestManager(url_server, "POST", {
         private: statusCreation,
         password: password,
         idUser: userSession.id,
+
       });
       console.log("handleCreation", responseUserData);
       if (responseUserData.isSuccess) {
@@ -155,9 +161,11 @@ const Join = () => {
               Jouer
             </button>
           </div>
+
           <div className="fixed top-1/4 left-10 w-1/4 z-50">
           <Chat room={"Générale"} username={userSession?.username} />
           </div>
+
           <Modal
             openModal={listModal}
             setOpenModal={setListModal}
@@ -170,7 +178,9 @@ const Join = () => {
               )
             }
             children={
+
               <div className="min-h-[500px] flex justify-between flex-col">
+
                 <div>
                   <ul className="w-full flex flex-col gap-2">
                     {list.map((item) => {
@@ -251,7 +261,9 @@ const Join = () => {
                     }
                   />
                 </div>
+
               </div>
+
             }
           />
           <div>
