@@ -4,6 +4,8 @@ import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le 
 import Timer from "../components/Game/Timer";
 import BlocPlayers from "../components/Game/BlocPlayers";
 import Action from "../components/Game/Actions";
+import { requestManager } from "../config/requestFunction";
+import { useLocation } from "react-router-dom";
 
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
@@ -29,15 +31,38 @@ const GameFetch = {
 };
 
 const Game = () => {
-  const { userSession } = useGlobalStatesContext();
+  const { informationMessage, setInformationMessage, userSession } =
+    useGlobalStatesContext();
+
+  const { pathname } = useLocation();
+  const gameID = pathname.split("/")[2];
 
   const [players, setPlayers] = useState(GameFetch["id_users"]);
   const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
   const [selectedPlayer, setSelectedPlayer] = useState();
 
+  const fetchGameData = async () => {
+    try {
+      const url_server = `http://localhost:4000/game/${userSession.id}`;
+      const response = await requestManager(url_server, "POST", {
+        idGame: gameID,
+      });
+      console.log(response);
+      if (response.isSuccess) {
+        roleAttributionFunction(response.response.id_users, setPlayers);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setInformationMessage({
+        title: "Erreur récupération partie",
+        content: error.message,
+      });
+    }
+  };
+
   useEffect(() => {
-    roleAttributionFunction(players, setPlayers);
+    fetchGameData();
   }, []);
 
   return (
@@ -47,7 +72,7 @@ const Game = () => {
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
-        <Timer
+        {/* <Timer
           players={players}
           setPlayers={setPlayers}
           userSession={userSession}
@@ -56,15 +81,15 @@ const Game = () => {
           setPhase={setPhase}
           setSelectedPlayer={setSelectedPlayer}
           selectedPlayer={selectedPlayer}
-        />
+        /> */}
         <div className="w-full flex ">
           <div className="w-1/2 p-10">
-            <BlocPlayers
+            {/* <BlocPlayers
               userSession={userSession}
               players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
-            />
+            /> */}
           </div>
           <div className="w-1/2 p-10">
             <Chat />

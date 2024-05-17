@@ -8,30 +8,73 @@ import Join from "./views/Join";
 import Game from "./views/Game";
 import Create from "./views/Create";
 import Account from "./views/Account";
-import AccountFake from "./views/AccountFake";
 
 import HeaderHome from "./components/Header";
 import Footer from "./components/Footer";
-import Chat from "./components/Chat";
-import { useGlobalStatesContext } from "../src/shared/context/GlobalStates";
+
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:4000");
 
 const App = () => {
+  socket.emit();
+  //Room State
+  const [room, setRoom] = useState("");
 
-  const { userSession, setUser } = useGlobalStatesContext();
-  useEffect(() => {}, [userSession]);
+  // Messages States
+  const [message, setMessage] = useState("TEST");
+  const [messageReceived, setMessageReceived] = useState("");
+
+  const joinRoom = () => {
+    if (room !== "") {
+      socket.emit("join_room", room);
+    }
+  };
+
+  const sendMessage = () => {
+    socket.emit("send_message", { message, room });
+  };
+
+  const Test = () => {
+    return (
+      <div className="App">
+        <input
+          placeholder="Room Number..."
+          onChange={(event) => {
+            setRoom(event.target.value);
+          }}
+        />
+        <button onClick={joinRoom}> Join Room</button>
+
+        <button onClick={sendMessage}> Send Message</button>
+        <h1> Message:</h1>
+        {messageReceived}
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageReceived(data.message);
+    });
+  }, [socket]);
 
   return (
     <Router>
+<<<<<<< HEAD
         
         <Chat room={'Générale'} username={userSession?.username} />
       
+=======
+>>>>>>> be5ed7ac9a75a2bb3859884b7870d4682d5597cf
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />
         <Route path="/Game/:id" element={<Game />} />
         <Route path="/Create" element={<Create />} />
-        <Route path="/Account/:id" element={<AccountFake />} />
+
+        <Route path="/Account/:id" element={<Account />} />
       </Routes>
       <Footer />
     </Router>
