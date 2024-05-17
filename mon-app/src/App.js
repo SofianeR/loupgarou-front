@@ -16,15 +16,10 @@ import { io } from "socket.io-client";
 
 const socket = io.connect("http://localhost:4000");
 
-import Chat from "./components/Chat";
-import { useGlobalStatesContext } from "../src/shared/context/GlobalStates";
-
-
 const App = () => {
   socket.emit();
   //Room State
   const [room, setRoom] = useState("");
-
 
   // Messages States
   const [message, setMessage] = useState("TEST");
@@ -66,7 +61,6 @@ const App = () => {
 
   return (
     <Router>
-
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
@@ -75,7 +69,6 @@ const App = () => {
         <Route path="/Create" element={<Create />} />
 
         <Route path="/Account/:id" element={<Account />} />
-
       </Routes>
       <Footer />
     </Router>
