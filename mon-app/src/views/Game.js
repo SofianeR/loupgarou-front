@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le bon chemin d'accès à votre image
 import Timer from "../components/Game/Timer";
 import BlocPlayers from "../components/Game/BlocPlayers";
 import Action from "../components/Game/Actions";
+
+import WaitingModal from "../components/Game/WaitingModal";
+
 import { requestManager } from "../config/requestFunction";
 import { useLocation } from "react-router-dom";
+
 
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
@@ -41,6 +44,8 @@ const Game = () => {
   const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
   const [selectedPlayer, setSelectedPlayer] = useState();
+  const [openModal, setOpenModal] = useState(false);
+  const isHost = true;
 
   const fetchGameData = async () => {
     try {
@@ -65,10 +70,28 @@ const Game = () => {
     fetchGameData();
   }, []);
 
+  useEffect(() => {
+    setOpenModal(true);
+  }, []);
+
+  const startGame = () => {
+    alert("Game Started!");
+    setOpenModal(false);
+  };
+
   return (
     <div
       style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
-      className="flex justify-center items-center flex-col p-8">
+      className="flex justify-center items-center flex-col p-8"
+    >
+      <WaitingModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        title="Game Lobby"
+        players={players}
+        isHost={isHost}
+        startGame={startGame}
+      />
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
