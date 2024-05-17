@@ -21,54 +21,12 @@ const socket = io.connect("http://localhost:4000");
 const App = () => {
   const { userSession, setUser } = useGlobalStatesContext();
 
-  socket.emit();
-  //Room State
-  const [room, setRoom] = useState("");
-
-  // Messages States
-  const [message, setMessage] = useState("TEST");
-  const [messageReceived, setMessageReceived] = useState("");
-
-  const joinRoom = () => {
-    if (room !== "") {
-      socket.emit("join_room", room);
-    }
-  };
-
-  const sendMessage = () => {
-    socket.emit("send_message", { message, room });
-  };
-
-  const Test = () => {
-    return (
-      <div className="App">
-        <input
-          placeholder="Room Number..."
-          onChange={(event) => {
-            setRoom(event.target.value);
-          }}
-        />
-        <button onClick={joinRoom}> Join Room</button>
-
-        <button onClick={sendMessage}> Send Message</button>
-        <h1> Message:</h1>
-        {messageReceived}
-      </div>
-    );
-  };
-
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageReceived(data.message);
-    });
-  }, [socket]);
 
   return (
     <Router>
         
         <Chat room={'Générale'} username={userSession?.username} />
 
-      
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
