@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le bon chemin d'accès à votre image
 import Timer from "../components/Game/Timer";
 import BlocPlayers from "../components/Game/BlocPlayers";
-import Chat from "../components/Game/Chat";
 import Action from "../components/Game/Actions";
+
 import WaitingModal from "../components/Game/WaitingModal";
+
+import { requestManager } from "../config/requestFunction";
+import { useLocation } from "react-router-dom";
+
 
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
 import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+import Chat from "../components/Chat";
 
 const GameFetch = {
   host: "134134134",
@@ -29,7 +34,11 @@ const GameFetch = {
 };
 
 const Game = () => {
-  const { userSession } = useGlobalStatesContext();
+  const { informationMessage, setInformationMessage, userSession } =
+    useGlobalStatesContext();
+
+  const { pathname } = useLocation();
+  const gameID = pathname.split("/")[2];
 
   const [players, setPlayers] = useState(GameFetch["id_users"]);
   const [waitingModal, setWaitingModal] = useState(true);
@@ -38,8 +47,27 @@ const Game = () => {
   const [openModal, setOpenModal] = useState(false);
   const isHost = true;
 
+  const fetchGameData = async () => {
+    try {
+      const url_server = `http://localhost:4000/game/${userSession.id}`;
+      const response = await requestManager(url_server, "POST", {
+        idGame: gameID,
+      });
+      console.log(response);
+      if (response.isSuccess) {
+        roleAttributionFunction(response.response.id_users, setPlayers);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setInformationMessage({
+        title: "Erreur récupération partie",
+        content: error.message,
+      });
+    }
+  };
+
   useEffect(() => {
-    roleAttributionFunction(players, setPlayers);
+    fetchGameData();
   }, []);
 
   useEffect(() => {
@@ -67,7 +95,7 @@ const Game = () => {
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
-        <Timer
+        {/* <Timer
           players={players}
           setPlayers={setPlayers}
           userSession={userSession}
@@ -76,15 +104,15 @@ const Game = () => {
           setPhase={setPhase}
           setSelectedPlayer={setSelectedPlayer}
           selectedPlayer={selectedPlayer}
-        />
+        /> */}
         <div className="w-full flex ">
           <div className="w-1/2 p-10">
-            <BlocPlayers
+            {/* <BlocPlayers
               userSession={userSession}
               players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
-            />
+            /> */}
           </div>
           <div className="w-1/2 p-10">
             <Chat />
