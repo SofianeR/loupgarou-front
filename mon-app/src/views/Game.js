@@ -29,12 +29,15 @@ const GameFetch = {
 };
 
 const Game = () => {
-  const { userSession } = useGlobalStatesContext();
+  const { informationMessage, setInformationMessage } =
+    useGlobalStatesContext();
 
   const [players, setPlayers] = useState(GameFetch["id_users"]);
   const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
   const [selectedPlayer, setSelectedPlayer] = useState();
+
+  const fetchGameData = async () => {};
 
   useEffect(() => {
     roleAttributionFunction(players, setPlayers);
@@ -47,7 +50,7 @@ const Game = () => {
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
-        <Timer
+        {/* <Timer
           players={players}
           setPlayers={setPlayers}
           userSession={userSession}
@@ -56,15 +59,15 @@ const Game = () => {
           setPhase={setPhase}
           setSelectedPlayer={setSelectedPlayer}
           selectedPlayer={selectedPlayer}
-        />
+        /> */}
         <div className="w-full flex ">
           <div className="w-1/2 p-10">
-            <BlocPlayers
+            {/* <BlocPlayers
               userSession={userSession}
               players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
-            />
+            /> */}
           </div>
           <div className="w-1/2 p-10">
             <Chat />
