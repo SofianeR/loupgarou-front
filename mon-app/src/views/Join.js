@@ -9,8 +9,13 @@ import { requestManager } from "../config/requestFunction";
 import Modal from "../components/Modal";
 import constant from "../config/constant";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+import Chat from "../components/Chat";
 
 const Join = () => {
+
+  const { userSession } = useGlobalStatesContext();
+
   const [alertMessage, setAlertMessage] = useState("");
   const [listModal, setListModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
@@ -61,7 +66,7 @@ const Join = () => {
           .concat("/join/")
           .concat(idGame);
         console.log("url handleJoin", url_server);
-        console.log(statusGame, idGame);
+
         const responseUserData = await requestManager(url_server, "POST", {
           private: statusGame,
           password: joinPassword,
@@ -77,8 +82,10 @@ const Join = () => {
     return (
       <>
         <li
+
+          onClick={() => handleClick()}
           className="bg-gray-200 p-1 px-2 flex justify-between"
-          onClick={() => handleJoin(status, id)}
+
         >
           <p>
             <span className="idgame">
@@ -123,11 +130,12 @@ const Join = () => {
         .concat("/game/")
         .concat(idUser)
         .concat("/create");
-      console.log("url handleCreation", url_server);
-      console.log(statusCreation);
+
       const responseUserData = await requestManager(url_server, "POST", {
         private: statusCreation,
         password: password,
+        idUser: userSession.id,
+
       });
       console.log("handleCreation", responseUserData);
       if (responseUserData.isSuccess) {
@@ -153,6 +161,11 @@ const Join = () => {
               Jouer
             </button>
           </div>
+
+          <div className="fixed top-1/4 left-10 w-1/4 z-50">
+          <Chat room={"Générale"} username={userSession?.username} />
+          </div>
+
           <Modal
             openModal={listModal}
             setOpenModal={setListModal}
@@ -165,7 +178,9 @@ const Join = () => {
               )
             }
             children={
-              <>
+
+              <div className="min-h-[500px] flex justify-between flex-col">
+
                 <div>
                   <ul className="w-full flex flex-col gap-2">
                     {list.map((item) => {
@@ -246,7 +261,9 @@ const Join = () => {
                     }
                   />
                 </div>
-              </>
+
+              </div>
+
             }
           />
           <div>

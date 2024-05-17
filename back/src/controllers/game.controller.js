@@ -1,11 +1,16 @@
 const config = require("../config/config");
 const Game = require("../models/mongo/game");
+
+const User = require("../models/mongo/users");
+
 const mongoose = require("mongoose");
 
 const create = (req, res) => {
-  const { idUser } = req.params;
-  const { private, password } = req.body;
-  const isPrivate = private === true;
+  const { private, password, idUser } = req.body;
+  console.log(idUser);
+  const isPrivate = private === "true";
+
+
   // création de la partie
   new Game({
     host: new mongoose.Types.ObjectId(idUser),
@@ -30,7 +35,9 @@ const create = (req, res) => {
 const join = (req, res) => {
   const { idUser, idGame } = req.params;
   const { private, password } = req.body;
-  const isPrivate = private === true;
+
+  const isPrivate = private === "true";
+
 
   try {
     // si la partie est privé et ue aucun mdp n'a été fourni on retourne une erreur
@@ -77,11 +84,16 @@ const get = (req, res) => {
   if (idGame) {
     Game.findOne({
       _id: idGame,
-    }).then((response) => {
-      res
-        .status(config.HTTP.RESPONSE.OK.CODE)
-        .json({ isSuccess: true, response: response });
-    });
+
+    })
+      .populate({ path: "host", select: "-password -email -__v" })
+      .populate({ path: "id_users", select: "-password -email -__v" })
+      .then((response) => {
+        res
+          .status(config.HTTP.RESPONSE.OK.CODE)
+          .json({ isSuccess: true, response: response });
+      });
+
   } else {
     // si aucun id fourni on récuopère la list des partie
     Game.find().then((response) => {

@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
 import FondAccueil from "../assets/FondAccueil.jpg"; // Assurez-vous d'avoir le bon chemin d'accès à votre image
 import Timer from "../components/Game/Timer";
 import BlocPlayers from "../components/Game/BlocPlayers";
-import Chat from "../components/Game/Chat";
 import Action from "../components/Game/Actions";
+
+import WaitingModal from "../components/Game/WaitingModal";
+
+import { requestManager } from "../config/requestFunction";
+import { useLocation } from "react-router-dom";
 
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
 import { useGlobalStatesContext } from "../shared/context/GlobalStates";
+import Chat from "../components/Chat";
 
 const GameFetch = {
   host: "134134134",
@@ -29,21 +33,65 @@ const GameFetch = {
 };
 
 const Game = () => {
-  const { userSession } = useGlobalStatesContext();
+  const { informationMessage, setInformationMessage, userSession } =
+    useGlobalStatesContext();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { pathname } = useLocation();
+  const gameID = pathname.split("/")[2];
 
   const [players, setPlayers] = useState(GameFetch["id_users"]);
   const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
   const [selectedPlayer, setSelectedPlayer] = useState();
+  const [openModal, setOpenModal] = useState(false);
+  const isHost = true;
+
+  const fetchGameData = async () => {
+    try {
+      const url_server = `http://localhost:4000/game/${userSession.id}`;
+      const response = await requestManager(url_server, "POST", {
+        idGame: gameID,
+      });
+      console.log(response);
+      if (response.isSuccess) {
+        roleAttributionFunction(response.response.id_users, setPlayers);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setInformationMessage({
+        title: "Erreur récupération partie",
+        content: error.message,
+      });
+    }
+    setIsLoading(false);
+    console.log(isLoading);
+  };
 
   useEffect(() => {
-    roleAttributionFunction(players, setPlayers);
+    fetchGameData();
+    setOpenModal(true);
   }, []);
 
+  const startGame = () => {
+    alert("Game Started!");
+    setOpenModal(false);
+  };
+
+  if (isLoading) return <div>En cours de chargement ...</div>;
   return (
     <div
       style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
       className="flex justify-center items-center flex-col p-8">
+      {/* <WaitingModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        title="Game Lobby"
+        players={players}
+        isHost={isHost}
+        startGame={startGame}
+      /> */}
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
@@ -64,6 +112,7 @@ const Game = () => {
               players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
+              phase={phase}
             />
           </div>
           <div className="w-1/2 p-10">
