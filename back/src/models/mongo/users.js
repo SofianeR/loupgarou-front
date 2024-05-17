@@ -48,17 +48,5 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     cb(null, isMatch);
   });
 };
-// UserSchema.methods.comparePassword = (passw, cb) => {
-//   return new Promise((resolve, reject) => {
-//     bcrypt.compare(passw, this.password, (err, isMatch) => {
-//       if (err) {
-//         // console.log("dans model user err => ", err);
-//         reject(cb(err));
-//       }
-//       resolve(cb(null, isMatch));
-//       // console.log("dans model user isMatch => ", isMatch);
-//     });
-//   });
-// };
 
 module.exports = mongoose.model("User", UserSchema);
