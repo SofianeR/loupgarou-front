@@ -9,7 +9,6 @@ import WaitingModal from "../components/Game/WaitingModal";
 import { requestManager } from "../config/requestFunction";
 import { useLocation } from "react-router-dom";
 
-
 import { roleAttributionFunction } from "../components/Game/GameMechanics";
 
 import { useGlobalStatesContext } from "../shared/context/GlobalStates";
@@ -36,6 +35,8 @@ const GameFetch = {
 const Game = () => {
   const { informationMessage, setInformationMessage, userSession } =
     useGlobalStatesContext();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const { pathname } = useLocation();
   const gameID = pathname.split("/")[2];
@@ -64,13 +65,12 @@ const Game = () => {
         content: error.message,
       });
     }
+    setIsLoading(false);
+    console.log(isLoading);
   };
 
   useEffect(() => {
     fetchGameData();
-  }, []);
-
-  useEffect(() => {
     setOpenModal(true);
   }, []);
 
@@ -79,23 +79,23 @@ const Game = () => {
     setOpenModal(false);
   };
 
+  if (isLoading) return <div>En cours de chargement ...</div>;
   return (
     <div
       style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
-      className="flex justify-center items-center flex-col p-8"
-    >
-      <WaitingModal
+      className="flex justify-center items-center flex-col p-8">
+      {/* <WaitingModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         title="Game Lobby"
         players={players}
         isHost={isHost}
         startGame={startGame}
-      />
+      /> */}
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
-        {/* <Timer
+        <Timer
           players={players}
           setPlayers={setPlayers}
           userSession={userSession}
@@ -104,15 +104,16 @@ const Game = () => {
           setPhase={setPhase}
           setSelectedPlayer={setSelectedPlayer}
           selectedPlayer={selectedPlayer}
-        /> */}
+        />
         <div className="w-full flex ">
           <div className="w-1/2 p-10">
-            {/* <BlocPlayers
+            <BlocPlayers
               userSession={userSession}
               players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
-            /> */}
+              phase={phase}
+            />
           </div>
           <div className="w-1/2 p-10">
             <Chat />
