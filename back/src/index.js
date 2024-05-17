@@ -1,36 +1,38 @@
-require("dotenv").config()
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 
 const usersRoutes = require("./routes/users");
 const gameRoutes = require("./routes/game");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
-const mongoose = require("mongoose");
-
-mongoose.connect(process.env.DATABASE_URI).then(() => {
-  console.log('success mongo connection')
-}).catch((e) => {
-  console.error('error mongo: ', e)
-})
+const connection = require('./config/connection');
+const socketIoInit = require("./config/socketIoConnection");
 
 const app = express();
 
-app.use(bodyParser.json());
-
 const corsOptions = {
-  origin: "*",
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST']
 };
 
-app.use(cors(corsOptions));
+// init de la base de donnée
+connection();
+// init du server socket.io
+socketIoInit(app, corsOptions);
 
+// options de configuration
+app.use(
+    cors(),
+    bodyParser.json(),
+    express.static("public")
+);
+
+// init des routes du project
 app.use("/users", usersRoutes);
 app.use("/game/:idUser", gameRoutes);
-
-app.get("/", async (req, res) => {
-  res.json("Page Introuvable");
-});
+app.get("*", (req, res) =>  res.json("Page Introuvable"));
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server launched on PORT : ${process.env.PORT || 4000}. 🦒`);
