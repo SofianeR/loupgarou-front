@@ -5,7 +5,7 @@ const socket = io.connect("http://localhost:3001");
 
 const Chat = ({room, username}) => {
   // Messages States
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({text: ''});
   const [messages, setMessages] = useState([]);
   
   useEffect(() => {
@@ -24,17 +24,16 @@ const Chat = ({room, username}) => {
   };
 
   const sendMessage = () => {
-    if(message.length === 0) {
-      return alert('entrer un message')
-    } else {
-      setMessages((s) => {
-        return [...s, {text: message, user: username, room: "room-".concat(room)}]
-      })
-      socket.emit("send_message", { message, room: "room-".concat(room), user: username });      
-      setMessage({text: ""})
-    }
-
-    console.log('messages', messages)
+    console.log('sendMessage',message.text)
+      if(message?.text === "") {
+        alert('Renseigner un message')
+      } else {
+        setMessages((s) => {
+          return [...s, {text: message.text, user: username, room: "room-".concat(room)}]
+        })
+        socket.emit("send_message", { text: message.text, room: "room-".concat(room), user: username });      
+        setMessage({text: ""})
+      }
   };
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const Chat = ({room, username}) => {
   }, [socket]);
 
   return (
-    <div className="bg-gray-200 h-96 p-4 rounded-lg grid">
+    <div className="bg-gray-200 min-h-96 p-4 rounded-lg grid">
       <ul>
         <li className="text-center">Room: {room}</li>
         <li className="text-center">User: {username}</li>
@@ -63,7 +62,7 @@ const Chat = ({room, username}) => {
           >
             
             <span className={`${ msg.user === username ? 'bg-gray-50 text-black': 'bg-blue-500 text-white'} px-2 py-1 rounded-lg inline-block break-words`}>
-              {msg.user}:{msg.text}
+              <strong>{msg.user === username ? 'moi':msg.user}: </strong>{msg.text}
             </span>
           </div>
         ))}
@@ -74,7 +73,7 @@ const Chat = ({room, username}) => {
         <input
           type="text"
           value={message.text}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => setMessage({text: e.target.value})}
           placeholder="Écrire un message..."
           className="flex-grow border border-gray-400 rounded-l-lg px-4 py-2 focus:outline-none"
         />
