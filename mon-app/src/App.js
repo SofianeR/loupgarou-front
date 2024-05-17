@@ -61,12 +61,6 @@ const App = () => {
 
   return (
     <Router>
-<<<<<<< HEAD
-        
-        <Chat room={'Générale'} username={userSession?.username} />
-      
-=======
->>>>>>> be5ed7ac9a75a2bb3859884b7870d4682d5597cf
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />
