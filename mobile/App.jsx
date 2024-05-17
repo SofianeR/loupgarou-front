@@ -5,18 +5,21 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  Image,
+  ImageBackground,
   useColorScheme,
   View,
 } from 'react-native';
+import Home from './components/Home';
+
+
 
 function App() {
   return (
     <SafeAreaView>
-      <Text>Je suis une texte d'accueil</Text>
+      <Home/>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default App;
