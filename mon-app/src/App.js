@@ -21,12 +21,8 @@ const socket = io.connect("http://localhost:4000");
 const App = () => {
   const { userSession, setUser } = useGlobalStatesContext();
 
-
   return (
     <Router>
-        
-        <Chat room={'Générale'} username={userSession?.username} />
-
       <HeaderHome />
       <Routes>
         <Route exact path="/" element={<Home />} />

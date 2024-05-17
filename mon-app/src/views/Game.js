@@ -54,9 +54,11 @@ const Game = () => {
       const response = await requestManager(url_server, "POST", {
         idGame: gameID,
       });
+
       console.log(response);
       if (response.isSuccess) {
         roleAttributionFunction(response.response.id_users, setPlayers);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error.message);
@@ -65,7 +67,6 @@ const Game = () => {
         content: error.message,
       });
     }
-    setIsLoading(false);
     console.log(isLoading);
   };
 
@@ -116,7 +117,7 @@ const Game = () => {
             />
           </div>
           <div className="w-1/2 p-10">
-            <Chat />
+            <Chat room={gameID} username={userSession?.username} />
           </div>
         </div>
         {/* <div className="w-10/12 place-items-center">
