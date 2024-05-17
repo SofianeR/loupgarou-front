@@ -3,18 +3,18 @@ import { useState, useEffect } from "react";
 
 const socket = io.connect("http://localhost:3001");
 
-const Chat = ({room, username}) => {
+const Chat = ({ room, username }) => {
   // Messages States
-  const [message, setMessage] = useState({text: ''});
+  const [message, setMessage] = useState({ text: "" });
   const [messages, setMessages] = useState([]);
-  
+
   useEffect(() => {
     joinRoom();
     console.log({
       room,
-      username
-    })
-  }, [])
+      username,
+    });
+  }, []);
 
   const joinRoom = () => {
     console.log("joinRoom");
@@ -23,24 +23,32 @@ const Chat = ({room, username}) => {
     }
   };
 
-  const sendMessage = () => {
-    console.log('sendMessage',message.text)
-      if(message?.text === "") {
-        alert('Renseigner un message')
-      } else {
-        setMessages((s) => {
-          return [...s, {text: message.text, user: username, room: "room-".concat(room)}]
-        })
-        socket.emit("send_message", { text: message.text, room: "room-".concat(room), user: username });      
-        setMessage({text: ""})
-      }
+  const sendMessage = (e) => {
+    e.preventDefault()
+    console.log("sendMessage", message.text);
+    if (message?.text === "") {
+      alert("Renseigner un message");
+    } else {
+      setMessages((s) => {
+        return [
+          ...s,
+          { text: message.text, user: username, room: "room-".concat(room) },
+        ];
+      });
+      socket.emit("send_message", {
+        text: message.text,
+        room: "room-".concat(room),
+        user: username,
+      });
+      setMessage({ text: "" });
+    }
   };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessages((s) => {
-        return [...s, data]
-      })
+        return [...s, data];
+      });
     });
   }, [socket]);
 
@@ -60,30 +68,35 @@ const Chat = ({room, username}) => {
               msg.user === username ? "text-right" : "text-left"
             }`}
           >
-            
-            <span className={`${ msg.user === username ? 'bg-gray-50 text-black': 'bg-blue-500 text-white'} px-2 py-1 rounded-lg inline-block break-words`}>
-              <strong>{msg.user === username ? 'moi':msg.user}: </strong>{msg.text}
+            <span
+              className={`${
+                msg.user === username
+                  ? "bg-gray-50 text-black"
+                  : "bg-blue-500 text-white"
+              } px-2 py-1 rounded-lg inline-block break-words`}
+            >
+              <strong>{msg.user === username ? "moi" : msg.user}: </strong>
+              {msg.text}
             </span>
           </div>
         ))}
       </div>
 
       {/* Zone de saisie des messages */}
-      <div className="flex mb-4 content-end">
-        <input
+      <form onSubmit={(e) => sendMessage(e)} className="flex mb-4 content-end">
+      <input
           type="text"
           value={message.text}
-          onChange={(e) => setMessage({text: e.target.value})}
+          onChange={(e) => setMessage({ text: e.target.value })}
           placeholder="Écrire un message..."
           className="flex-grow border border-gray-400 rounded-l-lg px-4 py-2 focus:outline-none"
         />
-        <button
-          onClick={sendMessage}
+        <button type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-r-lg"
         >
           Envoyer
         </button>
-      </div>
+      </form>
     </div>
   );
 };
