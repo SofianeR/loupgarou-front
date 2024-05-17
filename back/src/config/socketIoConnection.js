@@ -8,6 +8,7 @@ module.exports = function socketIoInit(app, cors) {
     // création du server socket.io
     const io = new Server(server, {
         cors: cors,
+
     })
 
     io.on("connection", async (socket) => {  
@@ -31,5 +32,6 @@ module.exports = function socketIoInit(app, cors) {
     server.listen(3001, () => {
         console.log("SERVER IS RUNNING");
     });
+
 
 }
