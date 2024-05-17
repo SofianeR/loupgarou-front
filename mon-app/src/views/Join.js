@@ -12,6 +12,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useGlobalStatesContext } from "../shared/context/GlobalStates";
 import Chat from "../components/Chat";
 
+import Chat from "../components/Chat";
+
 const Join = () => {
 
   const { userSession } = useGlobalStatesContext();
@@ -266,6 +268,8 @@ const Join = () => {
 
             }
           />
+          <Chat room={"Générale"} username={userSession?.username} />
+
           <div>
             <RulesModal />
           </div>
