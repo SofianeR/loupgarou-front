@@ -14,7 +14,7 @@ const Chat = ({room, username}) => {
       room,
       username
     })
-  })
+  }, [])
 
   const joinRoom = () => {
     console.log("joinRoom");
@@ -27,8 +27,14 @@ const Chat = ({room, username}) => {
     if(message.length === 0) {
       return alert('entrer un message')
     } else {
+      setMessages((s) => {
+        return [...s, {text: message, user: username, room: "room-".concat(room)}]
+      })
       socket.emit("send_message", { message, room: "room-".concat(room), user: username });      
+      setMessage({text: ""})
     }
+
+    console.log('messages', messages)
   };
 
   useEffect(() => {
@@ -41,8 +47,10 @@ const Chat = ({room, username}) => {
 
   return (
     <div className="bg-gray-200 h-96 p-4 rounded-lg grid">
-      <p className="text-center">Room: {room}</p>
-      <p className="text-center">User: {username}</p>
+      <ul>
+        <li className="text-center">Room: {room}</li>
+        <li className="text-center">User: {username}</li>
+      </ul>
       {/* Zone d'affichage des messages */}
       <div className="mb-4 overflow-auto">
         {/* Affichage des messages */}

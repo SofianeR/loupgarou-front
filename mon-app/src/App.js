@@ -23,7 +23,7 @@ const App = () => {
   return (
     <Router>
         
-        <Chat room={1} username={userSession?.username} />
+        <Chat room={'Générale'} username={userSession?.username} />
       
       <HeaderHome />
       <Routes>
