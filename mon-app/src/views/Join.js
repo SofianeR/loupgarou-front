@@ -65,7 +65,7 @@ const Join = () => {
           .concat("/join/")
           .concat(idGame);
         console.log("url handleJoin", url_server);
-
+        console.log(statusGame, idGame);
         const responseUserData = await requestManager(url_server, "POST", {
           private: statusGame,
           password: joinPassword,
@@ -83,6 +83,7 @@ const Join = () => {
         <li
           onClick={() => handleClick()}
           className="bg-gray-200 p-1 px-2 flex justify-between">
+
           <p>
             <span className="idgame">
               {id ? "game #".concat(id) : "game #01"}
@@ -127,6 +128,8 @@ const Join = () => {
         .concat(idUser)
         .concat("/create");
 
+      console.log("url handleCreation", url_server);
+      console.log(statusCreation);
       const responseUserData = await requestManager(url_server, "POST", {
         private: statusCreation,
         password: password,
