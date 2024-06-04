@@ -4,7 +4,7 @@ import { disqualificationHandle } from "./GameMechanics";
 
 const Timer = ({
   userSession,
-  waitingModal,
+  openModal,
   phase,
   setPhase,
   players,
@@ -13,7 +13,7 @@ const Timer = ({
   selectedPlayer,
 }) => {
   const [seconds, setSeconds] = useState(90);
-  const [isPaused, setIsPaused] = useState(waitingModal ? true : false);
+  const [isPaused, setIsPaused] = useState(openModal ? true : false);
   const [story, setStory] = useState("");
 
   const formatTime = (time) => {
@@ -62,10 +62,10 @@ const Timer = ({
           setSeconds((prevSeconds) => prevSeconds - 1);
         } else {
           clearInterval(interval);
-          setSeconds(90); // Reset timer to 90 seconds
-          handleTimerEnd(); // Call handleTimerEnd when timer reaches zero
+          setSeconds(90);
+          handleTimerEnd();
         }
-      }, 100); // One second interval (1000 milliseconds)
+      }, 100);
     }
 
     handleStory();

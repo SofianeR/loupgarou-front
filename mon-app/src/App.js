@@ -16,7 +16,6 @@ const App = () => {
   return (
     <Router>
       <HeaderHome />
-
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Join" element={<Join />} />

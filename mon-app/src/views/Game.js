@@ -42,11 +42,10 @@ const Game = () => {
   const gameID = pathname.split("/")[2];
 
   const [players, setPlayers] = useState(GameFetch["id_users"]);
-  const [waitingModal, setWaitingModal] = useState(true);
   const [phase, setPhase] = useState("Jour");
   const [selectedPlayer, setSelectedPlayer] = useState();
   const [openModal, setOpenModal] = useState(false);
-  const isHost = true;
+  const [gameData, setGameData] = useState(false);
 
   const fetchGameData = async () => {
     try {
@@ -55,9 +54,9 @@ const Game = () => {
         idGame: gameID,
       });
 
-      console.log(response);
       if (response.isSuccess) {
         roleAttributionFunction(response.response.id_users, setPlayers);
+        setGameData(response.response);
         setIsLoading(false);
       }
     } catch (error) {
@@ -67,7 +66,7 @@ const Game = () => {
         content: error.message,
       });
     }
-    console.log(isLoading);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -85,14 +84,14 @@ const Game = () => {
     <div
       style={{ backgroundImage: `url(${FondAccueil})`, height: "100vh" }}
       className="flex justify-center items-center flex-col p-8">
-      {/* <WaitingModal
+      <WaitingModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         title="Game Lobby"
         players={players}
-        isHost={isHost}
         startGame={startGame}
-      /> */}
+        gameData={gameData}
+      />
       <div className="w-10/12 pt-20">
         <button onClick={() => console.log(players)}>conosole</button>
 
@@ -100,7 +99,7 @@ const Game = () => {
           players={players}
           setPlayers={setPlayers}
           userSession={userSession}
-          waitingModal={waitingModal}
+          openModal={openModal}
           phase={phase}
           setPhase={setPhase}
           setSelectedPlayer={setSelectedPlayer}
